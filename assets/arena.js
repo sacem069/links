@@ -22,117 +22,70 @@ let placeChannelInfo = (channelData) => {
 
 // Then our big function for specific-block-type rendering:
 let renderBlock = (blockData) => {
-	// To start, a shared `ul` where we’ll insert all our blocks
 	let channelBlocks = document.querySelector('#channel-blocks')
+	if (!channelBlocks) return
 
-	// Links!
-	if (blockData.type == 'Link') {
-		// Declares a “template literal” of the dynamic HTML we want.
-		let linkItem =
-			`
-			<li>
-				<p><em>Link</em></p>
-				<figure>
-					<picture>
-						<source media="(width < 500px)" srcset="${ blockData.image.small.src_2x }">
-						<source media="(width < 1000px)" srcset="${ blockData.image.medium.src_2x }">
-						<img alt="${blockData.image.alt_text}" src="${ blockData.image.large.src_2x }">
-					</picture>
-					<figcaption>
-						<h3>${ blockData.title }</h3>
-						${ blockData.description.html }
-					</figcaption>
-				</figure>
-				<p><a href="${ blockData.source.url }">See the original ↗</a></p>
-			</li>
-			`
-
-		// And puts it into the page!
-		channelBlocks.insertAdjacentHTML('beforeend', linkItem)
-
-		// More on template literals:
-		// https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Template_literals
-	}
-
-	// Images!
-	else if (blockData.type == 'Image') {
-		// …up to you!
-	}
-
-	// Text!
-	else if (blockData.type == 'Text') {
-		// …up to you!
-	}
-
-	// Uploaded (not linked) media…
-	else if (blockData.type == 'Attachment') {
-		let contentType = blockData.attachment.content_type // Save us some repetition.
-
-		// Uploaded videos!
-		if (contentType.includes('video')) {
-			// …still up to you, but we’ll give you the `video` element:
-			let videoItem =
-				`
+	try {
+		// ——— LINK ———
+		if (blockData.type == 'Link') {
+			let img = blockData.image
+			let src = img?.display?.url || img?.large?.src_2x || ''
+			let linkItem = `
 				<li>
-					<p><em>Video</em></p>
-					<video controls src="${ blockData.attachment.url }"></video>
-				</li>
-				`
-
-			channelBlocks.insertAdjacentHTML('beforeend', videoItem)
-
-			// More on `video`, like the `autoplay` attribute:
-			// https://developer.mozilla.org/en-US/docs/Web/HTML/Element/video
+					<p><em>Link</em></p>
+					<figure>
+						${src ? `<img alt="${img?.alt_text || ''}" src="${src}">` : ''}
+						<figcaption><h3>${blockData.title || ''}</h3>${blockData.description?.html || ''}</figcaption>
+					</figure>
+					${blockData.source?.url ? `<p><a href="${blockData.source.url}" target="_blank" rel="noopener">See the original ↗</a></p>` : ''}
+				</li>`
+			channelBlocks.insertAdjacentHTML('beforeend', linkItem)
 		}
 
-		// Uploaded PDFs!
-		else if (contentType.includes('pdf')) {
-			// …up to you!
+		// ——— IMAGE ———
+		else if (blockData.type == 'Image') {
+			let img = blockData.image
+			let src = img?.display?.url || img?.original?.url || img?.large?.src_2x || ''
+			if (!src) return
+			let imageItem = `<li><p><em>Image</em></p><figure><img src="${src}" alt="${img?.alt_text || ''}" loading="lazy">${blockData.title ? `<figcaption>${blockData.title}</figcaption>` : ''}</figure></li>`
+			channelBlocks.insertAdjacentHTML('beforeend', imageItem)
 		}
 
-		// Uploaded audio!
-		else if (contentType.includes('audio')) {
-			// …still up to you, but here’s an `audio` element:
-			let audioItem =
-				`
-				<li>
-					<p><em>Audio</em></p>
-					<audio controls src="${ blockData.attachment.url }"></video>
-				</li>
-				`
-
-			channelBlocks.insertAdjacentHTML('beforeend', audioItem)
-
-			// More on`audio`:
-			// https://developer.mozilla.org/en-US/docs/Web/HTML/Element/audio
-		}
-	}
-
-	// Linked (embedded) media…
-	else if (blockData.type == 'Embed') {
-		let embedType = blockData.embed.type
-
-		// Linked video!
-		if (embedType.includes('video')) {
-			// …still up to you, but here’s an example `iframe` element:
-			let linkedVideoItem =
-				`
-				<li>
-					<p><em>Linked Video</em></p>
-					${ blockData.embed.html }
-				</li>
-				`
-
-			channelBlocks.insertAdjacentHTML('beforeend', linkedVideoItem)
-
-			// More on `iframe`:
-			// https://developer.mozilla.org/en-US/docs/Web/HTML/Element/iframe
+		// ——— TEXT ———
+		else if (blockData.type == 'Text') {
+			let content = blockData.content || blockData.description?.html || ''
+			if (!content) return
+			let textItem = `<li><p><em>Text</em></p><div class="block-text">${content}</div></li>`
+			channelBlocks.insertAdjacentHTML('beforeend', textItem)
 		}
 
-		// Linked audio!
-		else if (embedType.includes('rich')) {
-			// …up to you!
+		// ——— ATTACHMENT (uploaded file: video, pdf, audio) ———
+		else if (blockData.type == 'Attachment') {
+			let contentType = blockData.attachment?.content_type || ''
+			let url = blockData.attachment?.url || ''
+			if (!url) return
+
+			if (contentType.includes('video')) {
+				channelBlocks.insertAdjacentHTML('beforeend', `<li><p><em>Video</em></p><video controls src="${url}"></video></li>`)
+			}
+			else if (contentType.includes('pdf')) {
+				channelBlocks.insertAdjacentHTML('beforeend', `<li><p><em>PDF</em></p><p><a href="${url}" target="_blank" rel="noopener">View PDF ↗</a></p></li>`)
+			}
+			else if (contentType.includes('audio')) {
+				channelBlocks.insertAdjacentHTML('beforeend', `<li><p><em>Audio</em></p><audio controls src="${url}"></audio></li>`)
+			}
 		}
+
+		// ——— EMBED (YouTube, Spotify, etc.) ———
+		else if (blockData.type == 'Embed') {
+			let html = blockData.embed?.html || ''
+			let embedType = blockData.embed?.type || ''
+			if (html && (embedType.includes('video') || embedType.includes('rich'))) {
+				channelBlocks.insertAdjacentHTML('beforeend', `<li><p><em>Embed</em></p><div class="block-embed">${html}</div></li>`)
+			}
+		}
+	} catch (err) {
+		console.warn('Skip block:', blockData.id, err)
 	}
 }
 
