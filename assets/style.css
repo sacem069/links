@@ -1,4 +1,4 @@
-@import url('https://fonts.googleapis.com/css2?family=Electrolize&display=swap');
+ @import url('https://fonts.googleapis.com/css2?family=Electrolize&display=swap');
 
 :root {
      --color-bg: #e8e8e8;
@@ -54,7 +54,7 @@ body::before {
      content: '';
      position: fixed;
      inset: -20px;
-     background-image: url('images/background.png');
+     background-image: url('.../images/background.png');
      background-repeat: no-repeat;
      background-position: center top;
      background-size: auto 100%;
@@ -153,4 +153,5 @@ body::before {
 .nav__link--active {
      font-weight: 700;
      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.12);
-}
+} 
+
