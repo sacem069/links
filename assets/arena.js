@@ -23,10 +23,16 @@ let placeChannelInfo = (channelData) => {
 // Then our big function for specific-block-type rendering:
 let renderBlock = (blockData) => {
 	let channelBlocks = document.querySelector('#channel-blocks')
-	if (!channelBlocks) return
 
+
+// This line is saying that if the ChannelBlocks don't exist, stop running it. It prevents the page from crashing
+
+	//The try prevents one broken block from crashing the entire page. If an error happens while rendering a block, it skips that block and continues
 	try {
 		// ——— LINK ———
+
+	// ?. is optional chaining meaning that it will only access this if it exists. If not, is telling the site not to crash 
+	// || is telling the site that if  the thing on the left is false, empty or undefined to use the thing on the right.
 		if (blockData.type == 'Link') {
 			let img = blockData.image
 			let src = img?.display?.url || img?.large?.src_2x || ''
@@ -34,7 +40,9 @@ let renderBlock = (blockData) => {
 				<li>
 					<p><em>Link</em></p>
 					<figure>
+					// In this case, the || are saying that if there is no text, it will just be empty instead of saying "undefined" or "false"
 						${src ? `<img alt="${img?.alt_text || ''}" src="${src}">` : ''}
+				
 						<figcaption><h3>${blockData.title || ''}</h3>${blockData.description?.html || ''}</figcaption>
 					</figure>
 					${blockData.source?.url ? `<p><a href="${blockData.source.url}" target="_blank" rel="noopener">See the original ↗</a></p>` : ''}
