@@ -60,6 +60,7 @@ html {
      font-style: normal;
      line-height: 1;
 }
+
 body {
      font-family: var(--font);
      background-color: var(--color-bg);
@@ -99,13 +100,6 @@ footer {
           width: 100%;
           margin-left: 0;
           margin-right: 0;
-     }
-}
-
-@media (min-width: 768px) {
-     body::before {
-          background-position: center center;
-          background-size: 100% auto;
      }
 }
 
@@ -151,15 +145,18 @@ header p {
 #channel-description p:first-child {
      margin-top: 0;
 }
+
 footer {
      text-align: left;
 }
+
 footer h2 {
      display: inline-block;
      background: #fff;
      padding: 0.25em 0.5em;
      margin-bottom: 0.5em;
 }
+
 #channel-users address {
      display: inline-block;
      background: #fff;
@@ -180,19 +177,14 @@ footer h2 {
      main section h2,
      footer h2 { font-size: 1.25rem; }
 }
+
 main section { text-align: center; }
-main section > p {
-     background: #fff;
-     padding: var(--space-block);
-     margin: 0 auto;
-     max-width: fit-content;
-}
 
 #channel-blocks {
      list-style: none;
      padding: 0;
      margin: var(--space-block) 0;
-     width: 100%;
+     width: 80%;
 }
 
 .page {
@@ -322,6 +314,7 @@ main img, main video, main iframe, main audio,
      height: auto;
      display: block;
 }
+
 /* Mobile: images fill the block width */
 main img, #channel-blocks img {
      width: 100%;
@@ -336,6 +329,7 @@ main img, #channel-blocks img {
 main video, #channel-blocks video {
      max-width: min(100%, 560px);
 }
+
 main iframe, #channel-blocks iframe {
      width: 100%;
      max-width: min(100%, 560px);

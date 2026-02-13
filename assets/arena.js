@@ -1,20 +1,16 @@
 let channelSlug = 'human-media' // The “slug” is just the end of the URL.
-let myUsername = 'Evgenii Astapov' // For linking to your profile.
-
-
+let myUsername = 'maika-sacerdote' 
 
 // First, let’s lay out some *functions*, starting with our basic metadata:
 let placeChannelInfo = (channelData) => {
 	// Target some elements in your HTML:
 	let channelTitle = document.querySelector('#channel-title')
 	let channelDescription = document.querySelector('#channel-description')
-	let channelCount = document.querySelector('#channel-count')
 	let channelLink = document.querySelector('#channel-link')
 
 	// Then set their content/attributes to our data:
 	channelTitle.innerHTML = channelData.title
 	channelDescription.innerHTML = channelData.description.html
-	channelCount.innerHTML = channelData.counts.blocks
 	channelLink.href = `https://www.are.na/channel/${channelSlug}`
 }
 
@@ -25,31 +21,42 @@ let renderBlock = (blockData) => {
 	let channelBlocks = document.querySelector('#channel-blocks')
 
 
-// This line is saying that if the ChannelBlocks don't exist, stop running it. It prevents the page from crashing
-
-	//The try prevents one broken block from crashing the entire page. If an error happens while rendering a block, it skips that block and continues
-	try {
 		// ——— LINK ———
 
-	// ?. is optional chaining meaning that it will only access this if it exists. If not, is telling the site not to crash 
-	// || is telling the site that if  the thing on the left is false, empty or undefined to use the thing on the right.
 		if (blockData.type == 'Link') {
-			let img = blockData.image
-			let src = img?.display?.url || img?.large?.src_2x || ''
+			// let img = blockData.image
+			// let src = img?.display?.url || img?.large?.src_2x || ''
 			let linkItem = `
-				<li>
-					<p><em>Link</em></p>
-					<figure>
-					// In this case, the || are saying that if there is no text, it will just be empty instead of saying "undefined" or "false"
-						${src ? `<img alt="${img?.alt_text || ''}" src="${src}">` : ''}
-				
-						<figcaption><h3>${blockData.title || ''}</h3>${blockData.description?.html || ''}</figcaption>
-					</figure>
-					${blockData.source?.url ? `<p><a href="${blockData.source.url}" target="_blank" rel="noopener">See the original ↗</a></p>` : ''}
-				</li>`
+			<li>
+				<p><em>Link</em></p>
+				<figure>
+					<picture>
+						<source media="(width < 500px)" srcset="${ blockData.image.small.src_2x }">
+						<source media="(width < 1000px)" srcset="${ blockData.image.medium.src_2x }">
+						<img alt="${blockData.image.alt_text}" src="${ blockData.image.large.src_2x }">
+					</picture>
+					<figcaption>
+						<h3>
+							${ blockData.title
+								? blockData.title // If `blockData.title` exists, do this.
+								: `Untitled` // Otherwise do this.
+
+							}
+						</h3>
+						${ blockData.description // Here, checks for the object; could also write `blockData.description?.html`.
+							? `<div>${blockData.description.html}</div>` // Wrap/interpolate the HTML.
+							: `` // Our “otherwise” can also be blank!
+						}
+					</figcaption>
+				</figure>
+				<p><a href="${ blockData.source.url }">See the original ↗</a></p>
+			</li>
+			`
+
 			channelBlocks.insertAdjacentHTML('beforeend', linkItem)
 		}
 
+		
 		// ——— IMAGE ———
 		else if (blockData.type == 'Image') {
 			let img = blockData.image
@@ -92,9 +99,6 @@ let renderBlock = (blockData) => {
 				channelBlocks.insertAdjacentHTML('beforeend', `<li><p><em>Embed</em></p><div class="block-embed">${html}</div></li>`)
 			}
 		}
-	} catch (err) {
-		console.warn('Skip block:', blockData.id, err)
-	}
 }
 
 
@@ -106,7 +110,7 @@ let renderUser = (userData) => {
 	let userAddress =
 		`
 		<address>
-			<img src="${ userData.avatar }">
+		
 			<h3>${ userData.name }</h3>
 			<p><a href="https://are.na/${ userData.slug }">Are.na profile ↗</a></p>
 		</address>
