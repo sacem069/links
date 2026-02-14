@@ -42,7 +42,7 @@ html {
      background: var(--window-titlebar);
      border: 2px outset var(--window-border);
      text-decoration: none;
-     z-index: 10;
+     z-index: 25;
 }
 
 .info-icon__symbol {
@@ -75,6 +75,53 @@ body {
      display: flex;
      flex-direction: column;
 }
+body:has(dialog[open]) {
+     overflow: hidden;
+}
+
+
+dialog {
+     background-color: var(--window-body);
+     border: 3px outset var(--window-border);
+     font-family: var(--font);
+     gap: var(--space-page);
+     justify-items: center;
+     padding: var(--space-page);
+     max-width: 90vw;
+     width: 38ch;
+     position: fixed;
+     inset-block-start: 50%;
+     inset-inline-start: 50%;
+     translate: -50% -50%;
+     z-index: 20;
+}
+dialog[open] {
+     display: grid;
+}
+dialog p {
+     margin: 0;
+     max-width: 36ch;
+     text-align: center;
+     font-size: 0.9rem;
+}
+dialog button {
+     background: var(--window-titlebar);
+     border: 2px outset var(--window-border);
+     cursor: pointer;
+     font-family: var(--font);
+     padding: calc(var(--space-page) / 2) var(--space-page);
+}
+dialog::backdrop {
+     background-color: rgb(0 0 0 / 35%);
+     pointer-events: none;
+}
+@media (min-width: 768px) {
+     dialog {
+          width: 36ch;
+          max-width: 36ch;
+     }
+}
+
 main {
      flex: 1;
 }
@@ -129,23 +176,6 @@ header p {
      background: #fff;
      padding: 0.25em 0.5em;
 }
-#channel-description {
-     max-width: 60ch;
-     margin: 0.5em 0 0 0.75em;
-     text-align: left;
-     background: #fff;
-     padding: 0.1em 0;
-     font-size: 0.875rem;
-}
-#channel-description p {
-     background: #fff;
-     padding: 0.15em 0.25em;
-     margin: 0.35em 0;
-}
-#channel-description p:first-child {
-     margin-top: 0;
-}
-
 footer {
      text-align: left;
 }

@@ -5,12 +5,8 @@ let myUsername = 'maika-sacerdote'
 let placeChannelInfo = (channelData) => {
 	// Target some elements in your HTML:
 	let channelTitle = document.querySelector('#channel-title')
-	let channelDescription = document.querySelector('#channel-description')
 	let channelLink = document.querySelector('#channel-link')
-
-	// Then set their content/attributes to our data:
 	channelTitle.innerHTML = channelData.title
-	channelDescription.innerHTML = channelData.description.html
 	channelLink.href = `https://www.are.na/channel/${channelSlug}`
 }
 
@@ -24,8 +20,7 @@ let renderBlock = (blockData) => {
 		// ——— LINK ———
 
 		if (blockData.type == 'Link') {
-			// let img = blockData.image
-			// let src = img?.display?.url || img?.large?.src_2x || ''
+
 			let linkItem = `
 			<li>
 				<p><em>Link</em></p>
@@ -158,4 +153,24 @@ fetchJson(`https://api.are.na/v3/channels/${channelSlug}/contents?per=100&sort=p
 
 		renderBlock(blockData) // Pass the single block’s data to the render function.
 	})
+})
+
+
+let modalButton = document.querySelector('#info-modal')
+let modalDialog = document.querySelector('#dialog')
+let closeButton = modalDialog.querySelector('button')
+
+modalButton.addEventListener('click', (event) => {
+	// event.preventDefault()
+	modalDialog.showModal()
+})
+
+closeButton.addEventListener('click', () => {
+	modalDialog.close()
+})
+
+document.addEventListener('click', (event) => {
+	if (event.target === document.documentElement) {
+		modalDialog.close()
+	}
 })
