@@ -229,6 +229,7 @@ main section { text-align: center; }
 }
 
 
+/* Spread blocks across full width: left group ~-42vw, right group ~+42vw */
 #channel-blocks li:nth-child(1)  { transform: rotate(-2deg) translateX(-15vw); z-index: 43; }
 #channel-blocks li:nth-child(2)  { transform: rotate( 3deg) translateX( 12vw); z-index: 42; }
 #channel-blocks li:nth-child(3)  { transform: rotate(-4deg) translateX(-15vw); z-index: 41; }
@@ -283,7 +284,7 @@ main section { text-align: center; }
 
   #channel-blocks li {
     position: relative;   
-    width: min(42vw, 520px); 
+    width: min(20vw, 520px); 
     margin-top: -10vw; 
       max-width: 85%;    
   }
@@ -329,10 +330,20 @@ main img, #channel-blocks img {
      width: 100%;
      max-width: 100%;
 }
+
+
 @media (min-width: 768px) {
+
+     #channel-blocks li figure img {
+    width: 100%;
+     max-width: min(100%, 560px);
+
+  }
+
      main img, #channel-blocks img {
           width: auto;
-          max-width: min(100%, 240px);
+           max-width: min(100%, 560px);
+          
      }
 }
 main video, #channel-blocks video {
