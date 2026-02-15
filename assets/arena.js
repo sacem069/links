@@ -12,6 +12,7 @@ let placeChannelInfo = (channelData) => {
 
 
 
+
 // Then our big function for specific-block-type rendering:
 let renderBlock = (blockData) => {
 	let channelBlocks = document.querySelector('#channel-blocks')
@@ -160,8 +161,10 @@ let modalButton = document.querySelector('#info-modal')
 let modalDialog = document.querySelector('#dialog')
 let closeButton = modalDialog.querySelector('button')
 
+
+//  event.preventDefault() is used so the link doesn’t do its default action (going to # and jumping to the page top) we only want to open the popup.
 modalButton.addEventListener('click', (event) => {
-	// event.preventDefault()
+	event.preventDefault()
 	modalDialog.showModal()
 })
 
@@ -174,3 +177,5 @@ document.addEventListener('click', (event) => {
 		modalDialog.close()
 	}
 })
+
+

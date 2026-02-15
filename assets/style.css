@@ -16,18 +16,18 @@ html {
      --space-block: 0.75rem;
      --measure: 65ch;
      --font: 'Electrolize', sans-serif;
-     --blur-amount: 25px;
+     --blur-amount: 1.5625rem;
      --grain-opacity: 0.15;
      --window-border: #c0c0c0;
      --window-titlebar: #c0c0c0;
      --window-body: #ffffff;
      --center-width: 100%;
 }
-@media (min-width: 768px) {
+@media (width > 768px) {
      :root {
           --space-page: 1.25rem;
           --space-block: 1rem;
-          --center-width: 640px;
+          --center-width: 40rem;
      }
 }
 .info-icon {
@@ -40,7 +40,7 @@ html {
      width: 2.5rem;
      height: 2.5rem;
      background: var(--window-titlebar);
-     border: 2px outset var(--window-border);
+     border: 0.125rem outset var(--window-border);
      text-decoration: none;
      z-index: 25;
 }
@@ -51,7 +51,7 @@ html {
      justify-content: center;
      width: 1.25rem;
      height: 1.25rem;
-     border: 2px solid var(--color-info-symbol);
+     border: 0.125rem solid var(--color-info-symbol);
      border-radius: 50%;
      background: white;
      color: var(--color-info-symbol);
@@ -82,7 +82,7 @@ body:has(dialog[open]) {
 
 dialog {
      background-color: var(--window-body);
-     border: 3px outset var(--window-border);
+     border: 0.1875rem outset var(--window-border);
      font-family: var(--font);
      gap: var(--space-page);
      justify-items: center;
@@ -106,7 +106,7 @@ dialog p {
 }
 dialog button {
      background: var(--window-titlebar);
-     border: 2px outset var(--window-border);
+     border: 0.125rem outset var(--window-border);
      cursor: pointer;
      font-family: var(--font);
      padding: calc(var(--space-page) / 2) var(--space-page);
@@ -115,7 +115,7 @@ dialog::backdrop {
      background-color: rgb(0 0 0 / 35%);
      pointer-events: none;
 }
-@media (min-width: 768px) {
+@media (width > 768px) {
      dialog {
           width: 36ch;
           max-width: 36ch;
@@ -132,7 +132,7 @@ footer {
      margin-left: 0;
      margin-right: auto;
 }
-@media (min-width: 768px) {
+@media (width > 768px) {
      body { padding-bottom: 4.5rem; font-size: 1rem; padding-top: 0; }
      header {
           position: absolute;
@@ -202,7 +202,7 @@ footer h2 {
      font-size: 1rem;
      margin: 0 0 0.5em;
 }
-@media (min-width: 768px) {
+@media (width > 768px) {
      #channel-title { font-size: 1.75rem; }
      main section h2,
      footer h2 { font-size: 1.25rem; }
@@ -228,7 +228,7 @@ main section { text-align: center; }
      max-width: var(--measure);
      font-size: 0.875rem;
 }
-@media (min-width: 768px) {
+@media (width > 768px) {
      .page__text {
           font-size: 1rem;
      }
@@ -243,10 +243,10 @@ main section { text-align: center; }
 
 
 #channel-blocks li {
-     width: min(60vw, 320px);
+     width: min(60vw, 20rem);
   margin-left: auto;
   margin-right: auto;
-  border: 3px outset var(--window-border);
+  border: 0.1875rem outset var(--window-border);
 
   margin-top: -18vw;           
   transform-origin: center;
@@ -259,7 +259,6 @@ main section { text-align: center; }
 }
 
 
-/* Spread blocks across full width: left group ~-42vw, right group ~+42vw */
 #channel-blocks li:nth-child(1)  { transform: rotate(-2deg) translateX(-15vw); z-index: 43; }
 #channel-blocks li:nth-child(2)  { transform: rotate( 3deg) translateX( 12vw); z-index: 42; }
 #channel-blocks li:nth-child(3)  { transform: rotate(-4deg) translateX(-15vw); z-index: 41; }
@@ -305,7 +304,7 @@ main section { text-align: center; }
 #channel-blocks li:nth-child(43) { transform: rotate(-3deg) translateX(-15vw); z-index: 1; }
 
 
-@media (min-width: 768px) {
+@media (width > 768px) {
  
   #channel-blocks {
     margin-top: 18vw;     
@@ -314,7 +313,7 @@ main section { text-align: center; }
 
   #channel-blocks li {
     position: relative;   
-    width: min(20vw, 520px); 
+    width: min(20vw, 32.5rem); 
     margin-top: -10vw; 
       max-width: 85%;    
   }
@@ -327,10 +326,10 @@ main section { text-align: center; }
 
 #channel-blocks li > p:first-of-type {
      margin: 0;
-     padding: 6px 10px;
+     padding: 0.375rem 0.625rem;
      background: var(--window-titlebar);
      font-size: 0.75rem;
-     border-bottom: 1px solid var(--window-border);
+     border-bottom: 0.0625rem solid var(--window-border);
 }
 
 #channel-blocks li figure,
@@ -362,28 +361,27 @@ main img, #channel-blocks img {
 }
 
 
-@media (min-width: 768px) {
+@media (width > 768px) {
 
      #channel-blocks li figure img {
     width: 100%;
-     max-width: min(100%, 560px);
+     max-width: min(100%, 35rem);
 
   }
 
      main img, #channel-blocks img {
           width: auto;
-           max-width: min(100%, 560px);
+           max-width: min(100%, 35rem);
           
      }
 }
 main video, #channel-blocks video {
-     max-width: min(100%, 560px);
+     max-width: min(100%, 35rem);
 }
 
 main iframe, #channel-blocks iframe {
      width: 100%;
-     max-width: min(100%, 560px);
+     max-width: min(100%, 35rem);
 }
-
 
 
