@@ -194,7 +194,16 @@ fetchJson(`https://api.are.na/v3/channels/${channelSlug}/contents?per=100&sort=p
 
 		renderBlock(blockData) // Pass the single block’s data to the render function.
 	})
+
+	  let blocks = document.querySelectorAll('#channel-blocks > li')
+	  
+// // Loop through all blocks and give earlier ones a higher z-index
+// so the first blocks appear on top of the others.
+  blocks.forEach((block, index) => {
+    block.style.zIndex = blocks.length - index
+  })
 })
+
 
 
 let modalButton = document.querySelector('#info-modal')

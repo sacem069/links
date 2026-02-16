@@ -278,6 +278,8 @@ main section {
 }
 
 #channel-blocks>li {
+     --measure: 65ch;
+
      width: 100%;
      max-width: 15rem;
      justify-self: center;
