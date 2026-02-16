@@ -196,12 +196,42 @@ fetchJson(`https://api.are.na/v3/channels/${channelSlug}/contents?per=100&sort=p
 	})
 
 	  let blocks = document.querySelectorAll('#channel-blocks > li')
-	  
+
 // // Loop through all blocks and give earlier ones a higher z-index
 // so the first blocks appear on top of the others.
   blocks.forEach((block, index) => {
-    block.style.zIndex = blocks.length - index
+	 let baseZ = blocks.length - index
+  block.dataset.baseZ = baseZ
+  block.style.setProperty('--z', baseZ)
+
   })
+
+    // scroll highlight: rotate + bring to front
+  let activeClass = 'active-block'
+
+  blocks.forEach((block) => {
+    let blockObserver = new IntersectionObserver(([entry]) => {
+      if (entry.isIntersecting) {
+
+		  // reset everyone back to their base z-index
+  blocks.forEach(b => {
+    b.classList.remove(activeClass)
+    b.style.setProperty('--z', b.dataset.baseZ)
+  })
+
+  // make this one active + put it on top
+  block.classList.add(activeClass)
+  block.style.setProperty('--z', 9999)
+}
+
+    }, {
+      root: null,
+      rootMargin: '-35% 0% -35% 0%',
+    })
+
+    blockObserver.observe(block)
+  })
+
 })
 
 

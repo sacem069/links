@@ -278,8 +278,10 @@ main section {
 }
 
 #channel-blocks>li {
-     --measure: 65ch;
+     transition: transform 400ms ease;
+      z-index: var(--z, 1); 
 
+     /* z-index: 1; */
      width: 100%;
      max-width: 15rem;
      justify-self: center;
@@ -289,6 +291,13 @@ main section {
      position: relative;
      background: var(--window-body);
      border: 0.1875rem outset var(--window-border);
+
+     
+}
+
+#channel-blocks > li.active-block{
+      transform: rotate(calc(var(--r, 0deg) + 4deg));
+
 }
 
 
