@@ -243,7 +243,7 @@ main section { text-align: center; }
   margin-top: 5rem;
   display: grid;
   grid-template-columns: 1fr;  
-  grid-auto-rows: 16rem;      
+  grid-auto-rows: 16rem;
   position: relative;
   margin-bottom: 10rem;
 }
@@ -255,6 +255,10 @@ main section { text-align: center; }
   align-self: start;
   margin-top: 1rem;          
   transform: rotate(var(--r, 0deg));
+  position: relative;
+  background: var(--window-body);
+  border: 0.1875rem outset var(--window-border);
+  /* box-shadow: 0.2rem 0.2rem 0 0 #888; */
 }
 
 
@@ -281,12 +285,10 @@ main section { text-align: center; }
     margin-top: 1.5rem;    
   }
 
-
   #channel-blocks > li:nth-child(odd){
     grid-column: 1;
     justify-self: end; 
   }
-
 
   #channel-blocks > li:nth-child(even){
       margin-top: 7rem;

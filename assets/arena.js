@@ -62,13 +62,32 @@ let renderBlock = (blockData) => {
 			channelBlocks.insertAdjacentHTML('beforeend', imageItem)
 		}
 
-		// ——— TEXT ———
-		else if (blockData.type == 'Text') {
-			let content = blockData.content || blockData.description?.html || ''
-			if (!content) return
-			let textItem = `<li><p><em>Text</em></p><div class="block-text">${content}</div></li>`
-			channelBlocks.insertAdjacentHTML('beforeend', textItem)
-		}
+
+// TEXT
+// If textHtml is empty or doesn't exist, try getting the text
+// from another place in the block (description.html).
+// The ?. makes sure the code doesn’t crash if description doesn’t exist.
+else if (blockData.type == 'Text') {
+  let textHtml = blockData.content
+  if (typeof textHtml === 'object') {
+    textHtml = textHtml.html
+  }
+
+  if (!textHtml) {
+    textHtml = blockData.description?.html
+  }
+
+  let textItem = `
+    <li>
+      <p><em>Text</em></p>
+      <div class="block-text">
+        ${textHtml}
+      </div>
+    </li>
+  `
+
+  channelBlocks.insertAdjacentHTML('beforeend', textItem)
+}
 
 		// ——— ATTACHMENT (uploaded file: video, pdf, audio) ———
 		else if (blockData.type == 'Attachment') {
