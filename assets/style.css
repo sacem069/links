@@ -4,7 +4,10 @@ html {
      box-sizing: border-box;
      width: 100%;
 }
-*, *::before, *::after {
+
+*,
+*::before,
+*::after {
      box-sizing: inherit;
 }
 
@@ -23,6 +26,7 @@ html {
      --window-body: #ffffff;
      --center-width: 100%;
 }
+
 @media (width > 768px) {
      :root {
           --space-page: 1.25rem;
@@ -30,6 +34,7 @@ html {
           --center-width: 40rem;
      }
 }
+
 .info-icon {
      position: fixed;
      top: var(--space-page);
@@ -75,11 +80,12 @@ body {
      display: flex;
      flex-direction: column;
 }
+
 body:has(dialog[open]) {
      overflow: hidden;
 }
 
- 
+
 dialog {
      background-color: var(--window-body);
      border: 0.1875rem outset var(--window-border);
@@ -99,12 +105,14 @@ dialog {
 dialog[open] {
      display: grid;
 }
+
 dialog p {
      margin: 0;
      max-width: 36ch;
      text-align: center;
      font-size: 0.9rem;
 }
+
 dialog button {
      background: var(--window-titlebar);
      border: 0.125rem outset var(--window-border);
@@ -112,6 +120,7 @@ dialog button {
      font-family: var(--font);
      padding: calc(var(--space-page) / 2) var(--space-page);
 }
+
 dialog::backdrop {
      background-color: rgb(0 0 0 / 35%);
      pointer-events: none;
@@ -127,6 +136,7 @@ dialog::backdrop {
 main {
      flex: 1;
 }
+
 footer {
      margin-top: auto;
      position: relative;
@@ -134,8 +144,14 @@ footer {
      margin-left: 0;
      margin-right: auto;
 }
+
 @media (width > 768px) {
-     body { padding-bottom: 4.5rem; font-size: 1rem; padding-top: 0; }
+     body {
+          padding-bottom: 4.5rem;
+          font-size: 1rem;
+          padding-top: 0;
+     }
+
      header {
           position: absolute;
           top: 0;
@@ -144,6 +160,7 @@ footer {
           z-index: 10;
           padding-top: var(--space-page);
      }
+
      main {
           max-width: none;
           width: 100%;
@@ -153,19 +170,24 @@ footer {
 }
 
 
-header, main, footer {
+header,
+main,
+footer {
      max-width: var(--center-width);
      margin-left: auto;
      margin-right: auto;
      width: 100%;
 }
+
 header {
      text-align: center;
      margin-top: 3rem;
 }
+
 header p {
      margin: 0.5em 0;
 }
+
 #channel-title {
      font-size: 1.25rem;
      margin: 0 0 0.25em;
@@ -173,12 +195,14 @@ header p {
      background: #fff;
      padding: 0.25em 0.5em;
 }
+
 header p a,
 header p {
      display: inline-block;
      background: #fff;
      padding: 0.25em 0.5em;
 }
+
 footer {
      text-align: left;
      margin-top: 6rem;
@@ -210,13 +234,19 @@ footer h2 {
 }
 
 @media (width > 768px) {
-     #channel-title { font-size: 1.75rem; }
+     #channel-title {
+          font-size: 1.75rem;
+     }
+
      main section h2,
-     footer h2 { font-size: 1.25rem; }
+     footer h2 {
+          font-size: 1.25rem;
+     }
 }
 
-main section { text-align: center; }
-
+main section {
+     text-align: center;
+}
 
 
 .page {
@@ -230,6 +260,7 @@ main section { text-align: center; }
      max-width: var(--measure);
      font-size: 0.875rem;
 }
+
 @media (width > 768px) {
      .page__text {
           font-size: 1rem;
@@ -237,64 +268,62 @@ main section { text-align: center; }
 }
 
 
-
-
-#channel-blocks{
-  margin-top: 5rem;
-  display: grid;
-  grid-template-columns: 1fr;  
-  grid-auto-rows: 16rem;
-  position: relative;
-  margin-bottom: 10rem;
+#channel-blocks {
+     margin-top: 5rem;
+     display: grid;
+     grid-template-columns: 1fr;
+     grid-auto-rows: 16rem;
+     position: relative;
+     margin-bottom: 10rem;
 }
 
-#channel-blocks > li{
-  width: 100%;
-  max-width: 15rem;
-  justify-self: center;
-  align-self: start;
-  margin-top: 1rem;          
-  transform: rotate(var(--r, 0deg));
-  position: relative;
-  background: var(--window-body);
-  border: 0.1875rem outset var(--window-border);
-  /* box-shadow: 0.2rem 0.2rem 0 0 #888; */
+#channel-blocks>li {
+     width: 100%;
+     max-width: 15rem;
+     justify-self: center;
+     align-self: start;
+     margin-top: 1rem;
+     transform: rotate(var(--r, 0deg));
+     position: relative;
+     background: var(--window-body);
+     border: 0.1875rem outset var(--window-border);
 }
 
 
-#channel-blocks > li:nth-child(8n+1){ --r:-5deg; }
-#channel-blocks > li:nth-child(8n+2){ --r: 3deg; }
-#channel-blocks > li:nth-child(8n+3){ --r:-4deg; }
-#channel-blocks > li:nth-child(8n+4){ --r: 2deg; }
-#channel-blocks > li:nth-child(8n+5){ --r:-3deg; }
-#channel-blocks > li:nth-child(8n+6){ --r: 4deg; }
-#channel-blocks > li:nth-child(8n+7){ --r:-8deg; }
-#channel-blocks > li:nth-child(8n){   --r: 5deg; }
+#channel-blocks>li:nth-child(8n+1) { --r: -5deg;}
+#channel-blocks>li:nth-child(8n+2) { --r: 3deg;}
+#channel-blocks>li:nth-child(8n+3) { --r: -4deg;}
+#channel-blocks>li:nth-child(8n+4) { --r: 2deg;}
+#channel-blocks>li:nth-child(8n+5) {--r: -3deg;}
+#channel-blocks>li:nth-child(8n+6) {--r: 4deg;}
+#channel-blocks>li:nth-child(8n+7) {--r: -8deg;}
+#channel-blocks>li:nth-child(8n) {--r: 5deg;}
 
-@media (width > 768px){
 
-  #channel-blocks{
-    margin-top: 13rem; 
-    grid-template-columns: 1fr 1fr;
-    grid-auto-rows: 20rem;
-    column-gap: 2rem;
-  }
+@media (width > 768px) {
 
-  #channel-blocks > li{
-     max-width: 23rem;
-    margin-top: 1.5rem;    
-  }
+     #channel-blocks {
+          margin-top: 13rem;
+          grid-template-columns: 1fr 1fr;
+          grid-auto-rows: 20rem;
+          column-gap: 2rem;
+     }
 
-  #channel-blocks > li:nth-child(odd){
-    grid-column: 1;
-    justify-self: end; 
-  }
+     #channel-blocks>li {
+          max-width: 23rem;
+          margin-top: 1.5rem;
+     }
 
-  #channel-blocks > li:nth-child(even){
-      margin-top: 7rem;
-    grid-column: 2;
-    justify-self: start;
-  }
+     #channel-blocks>li:nth-child(odd) {
+          grid-column: 1;
+          justify-self: end;
+     }
+
+     #channel-blocks>li:nth-child(even) {
+          margin-top: 7rem;
+          grid-column: 2;
+          justify-self: start;
+     }
 }
 
 
@@ -303,7 +332,7 @@ main section { text-align: center; }
 }
 
 
-#channel-blocks li > p:first-of-type {
+#channel-blocks li>p:first-of-type {
      margin: 0;
      padding: 0.375rem 0.625rem;
      background: var(--window-titlebar);
@@ -315,27 +344,38 @@ main section { text-align: center; }
 #channel-blocks li figure,
 #channel-blocks li .block-text,
 #channel-blocks li .block-embed,
-#channel-blocks li > p:not(:first-of-type),
-#channel-blocks li > video,
-#channel-blocks li > audio {
+#channel-blocks li>p:not(:first-of-type),
+#channel-blocks li>video,
+#channel-blocks li>audio {
      margin: 0;
      padding: var(--space-block);
      background: var(--window-body);
 }
 
 
-main, header, footer, #channel-blocks {
+main,
+header,
+footer,
+#channel-blocks {
      max-width: 100%;
 }
-main img, main video, main iframe, main audio,
-#channel-blocks img, #channel-blocks video, #channel-blocks iframe, #channel-blocks audio {
+
+main img,
+main video,
+main iframe,
+main audio,
+#channel-blocks img,
+#channel-blocks video,
+#channel-blocks iframe,
+#channel-blocks audio {
      max-width: 100%;
      height: auto;
      display: block;
 }
 
 
-main img, #channel-blocks img {
+main img,
+#channel-blocks img {
      width: 100%;
      max-width: 100%;
 }
@@ -344,24 +384,58 @@ main img, #channel-blocks img {
 @media (width > 768px) {
 
      #channel-blocks li figure img {
-    width: 100%;
-     max-width: min(100%, 35rem);
+          width: 100%;
+          max-width: min(100%, 35rem);
+     }
 
-  }
-
-     main img, #channel-blocks img {
+     main img,
+     #channel-blocks img {
           width: auto;
-           max-width: min(100%, 35rem);
-          
+          max-width: min(100%, 35rem);
+
      }
 }
-main video, #channel-blocks video {
+
+main video,
+#channel-blocks video {
      max-width: min(100%, 35rem);
 }
 
-main iframe, #channel-blocks iframe {
+main iframe,
+#channel-blocks iframe {
      width: 100%;
      max-width: min(100%, 35rem);
 }
 
 
+.block--audio .audio-ui {
+     background: #bdbdbd;
+     padding: 0.25rem;
+     margin: var(--space-block);
+}
+
+.block--audio .audio-controls {
+     display: flex;
+     justify-content: center;
+     gap: 0.75rem;
+     background: #c9c9c9;
+     padding: 1rem;
+     border: 0.125rem inset #e3e3e3;
+}
+
+.block--audio .audio-btn {
+     width: 2.25rem;
+     height: 1.75rem;
+     background: #cfcfcf;
+     border: 0.2rem outset #bfbfbf;
+     font-size: 1.25rem;
+     cursor: pointer;
+}
+
+.block--audio .audio-btn:active {
+     border-style: inset;
+}
+
+.block--audio .audio-el {
+     display: none;
+}

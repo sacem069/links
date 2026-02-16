@@ -1,5 +1,5 @@
 let channelSlug = 'human-media' // The “slug” is just the end of the URL.
-let myUsername = 'maika-sacerdote' 
+let myUsername = 'maika-sacerdote'
 
 // First, let’s lay out some *functions*, starting with our basic metadata:
 let placeChannelInfo = (channelData) => {
@@ -18,66 +18,66 @@ let renderBlock = (blockData) => {
 	let channelBlocks = document.querySelector('#channel-blocks')
 
 
-		// ——— LINK ———
+	// ——— LINK ———
 
-		if (blockData.type == 'Link') {
+	if (blockData.type == 'Link') {
 
-			let linkItem = `
+		let linkItem = `
 			<li>
 				<p><em>Link</em></p>
 				<figure>
 					<picture>
-						<source media="(width < 500px)" srcset="${ blockData.image.small.src_2x }">
-						<source media="(width < 1000px)" srcset="${ blockData.image.medium.src_2x }">
-						<img alt="${blockData.image.alt_text}" src="${ blockData.image.large.src_2x }">
+						<source media="(width < 500px)" srcset="${blockData.image.small.src_2x}">
+						<source media="(width < 1000px)" srcset="${blockData.image.medium.src_2x}">
+						<img alt="${blockData.image.alt_text}" src="${blockData.image.large.src_2x}">
 					</picture>
 					<figcaption>
 						<h3>
-							${ blockData.title
-								? blockData.title // If `blockData.title` exists, do this.
-								: `Untitled` // Otherwise do this.
+							${blockData.title
+				? blockData.title // If `blockData.title` exists, do this.
+				: `Untitled` // Otherwise do this.
 
-							}
+			}
 						</h3>
-						${ blockData.description // Here, checks for the object; could also write `blockData.description?.html`.
-							? `<div>${blockData.description.html}</div>` // Wrap/interpolate the HTML.
-							: `` // Our “otherwise” can also be blank!
-						}
+						${blockData.description // Here, checks for the object; could also write `blockData.description?.html`.
+				? `<div>${blockData.description.html}</div>` // Wrap/interpolate the HTML.
+				: `` // Our “otherwise” can also be blank!
+			}
 					</figcaption>
 				</figure>
-				<p><a href="${ blockData.source.url }">See the original ↗</a></p>
+				<p><a href="${blockData.source.url}">See the original ↗</a></p>
 			</li>
 			`
 
-			channelBlocks.insertAdjacentHTML('beforeend', linkItem)
+		channelBlocks.insertAdjacentHTML('beforeend', linkItem)
+	}
+
+
+	// ——— IMAGE ———
+	else if (blockData.type == 'Image') {
+		let img = blockData.image
+		let src = img?.display?.url || img?.original?.url || img?.large?.src_2x || ''
+		if (!src) return
+		let imageItem = `<li><p><em>Image</em></p><figure><img src="${src}" alt="${img?.alt_text || ''}" loading="lazy">${blockData.title ? `<figcaption>${blockData.title}</figcaption>` : ''}</figure></li>`
+		channelBlocks.insertAdjacentHTML('beforeend', imageItem)
+	}
+
+
+	// TEXT
+	// If textHtml is empty or doesn't exist, try getting the text
+	// from another place in the block (description.html).
+	// The ?. makes sure the code doesn’t crash if description doesn’t exist.
+	else if (blockData.type == 'Text') {
+		let textHtml = blockData.content
+		if (typeof textHtml === 'object') {
+			textHtml = textHtml.html
 		}
 
-		
-		// ——— IMAGE ———
-		else if (blockData.type == 'Image') {
-			let img = blockData.image
-			let src = img?.display?.url || img?.original?.url || img?.large?.src_2x || ''
-			if (!src) return
-			let imageItem = `<li><p><em>Image</em></p><figure><img src="${src}" alt="${img?.alt_text || ''}" loading="lazy">${blockData.title ? `<figcaption>${blockData.title}</figcaption>` : ''}</figure></li>`
-			channelBlocks.insertAdjacentHTML('beforeend', imageItem)
+		if (!textHtml) {
+			textHtml = blockData.description?.html
 		}
 
-
-// TEXT
-// If textHtml is empty or doesn't exist, try getting the text
-// from another place in the block (description.html).
-// The ?. makes sure the code doesn’t crash if description doesn’t exist.
-else if (blockData.type == 'Text') {
-  let textHtml = blockData.content
-  if (typeof textHtml === 'object') {
-    textHtml = textHtml.html
-  }
-
-  if (!textHtml) {
-    textHtml = blockData.description?.html
-  }
-
-  let textItem = `
+		let textItem = `
     <li>
       <p><em>Text</em></p>
       <div class="block-text">
@@ -86,34 +86,55 @@ else if (blockData.type == 'Text') {
     </li>
   `
 
-  channelBlocks.insertAdjacentHTML('beforeend', textItem)
-}
+		channelBlocks.insertAdjacentHTML('beforeend', textItem)
+	}
 
-		// ——— ATTACHMENT (uploaded file: video, pdf, audio) ———
-		else if (blockData.type == 'Attachment') {
-			let contentType = blockData.attachment?.content_type || ''
-			let url = blockData.attachment?.url || ''
-			if (!url) return
+	// ——— ATTACHMENT (uploaded file: video, pdf, audio) ———
+	else if (blockData.type == 'Attachment') {
+		let contentType = blockData.attachment?.content_type || ''
+		let url = blockData.attachment?.url || ''
+		if (!url) return
 
-			if (contentType.includes('video')) {
-				channelBlocks.insertAdjacentHTML('beforeend', `<li><p><em>Video</em></p><video controls src="${url}"></video></li>`)
-			}
-			else if (contentType.includes('pdf')) {
-				channelBlocks.insertAdjacentHTML('beforeend', `<li><p><em>PDF</em></p><p><a href="${url}" target="_blank" rel="noopener">View PDF ↗</a></p></li>`)
-			}
-			else if (contentType.includes('audio')) {
-				channelBlocks.insertAdjacentHTML('beforeend', `<li><p><em>Audio</em></p><audio controls src="${url}"></audio></li>`)
-			}
+		if (contentType.includes('video')) {
+			channelBlocks.insertAdjacentHTML('beforeend', `<li><p><em>Video</em></p><video controls src="${url}"></video></li>`)
 		}
-
-		// ——— EMBED (YouTube, Spotify, etc.) ———
-		else if (blockData.type == 'Embed') {
-			let html = blockData.embed?.html || ''
-			let embedType = blockData.embed?.type || ''
-			if (html && (embedType.includes('video') || embedType.includes('rich'))) {
-				channelBlocks.insertAdjacentHTML('beforeend', `<li><p><em>Embed</em></p><div class="block-embed">${html}</div></li>`)
-			}
+		else if (contentType.includes('pdf')) {
+			channelBlocks.insertAdjacentHTML('beforeend', `<li><p><em>PDF</em></p><p><a href="${url}" target="_blank" rel="noopener">View PDF ↗</a></p></li>`)
 		}
+		// else if (contentType.includes('audio')) {
+		// 	channelBlocks.insertAdjacentHTML('beforeend', `<li><p><em>Audio</em></p><audio controls src="${url}"></audio></li>`)
+		// }
+
+		else if (contentType.includes('audio')) {
+			let audioItem = `
+    <li class="block block--audio">
+      <p><em>Audio</em></p>
+
+      <div class="audio-ui">
+        <div class="audio-controls">
+          <button class="audio-btn audio-prev" type="button" aria-label="Previous">⏮</button>
+
+          <button class="audio-btn audio-play" type="button" aria-label="Play/Pause">▶</button>
+
+          <button class="audio-btn audio-next" type="button" aria-label="Next">⏭</button>
+        </div>
+
+        <audio class="audio-el" src="${blockData.attachment.url}"></audio>
+      </div>
+    </li>
+  `
+			channelBlocks.insertAdjacentHTML('beforeend', audioItem)
+		}
+	}
+
+	// ——— EMBED (YouTube, Spotify, etc.) ———
+	else if (blockData.type == 'Embed') {
+		let html = blockData.embed?.html || ''
+		let embedType = blockData.embed?.type || ''
+		if (html && (embedType.includes('video') || embedType.includes('rich'))) {
+			channelBlocks.insertAdjacentHTML('beforeend', `<li><p><em>Embed</em></p><div class="block-embed">${html}</div></li>`)
+		}
+	}
 }
 
 
@@ -126,8 +147,8 @@ let renderUser = (userData) => {
 		`
 		<address>
 		
-			<h3>${ userData.name }</h3>
-			<p><a href="https://are.na/${ userData.slug }">Are.na profile ↗</a></p>
+			<h3>${userData.name}</h3>
+			<p><a href="https://are.na/${userData.slug}">Are.na profile ↗</a></p>
 		</address>
 		`
 
@@ -196,5 +217,25 @@ document.addEventListener('click', (event) => {
 		modalDialog.close()
 	}
 })
+
+//make audio play and stop
+
+document.addEventListener('click', (event) => {
+	const playBtn = event.target.closest('.audio-play')
+	if (!playBtn) return
+
+	const ui = playBtn.closest('.audio-ui')
+	const audio = ui.querySelector('.audio-el')
+
+	if (audio.paused) {
+		audio.play()
+		playBtn.textContent = '⏸'
+	} else {
+		audio.pause()
+		playBtn.textContent = '▶'
+	}
+})
+
+
 
 
