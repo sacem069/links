@@ -138,7 +138,6 @@ let renderBlock = (blockData) => {
 }
 
 
-
 // A function to display the owner/collaborator info:
 let renderUser = (userData) => {
 	let channelUsers = document.querySelector('#channel-users') // Container.
@@ -194,44 +193,46 @@ fetchJson(`https://api.are.na/v3/channels/${channelSlug}/contents?per=100&sort=p
 
 		renderBlock(blockData) // Pass the single block’s data to the render function.
 	})
+	
 
 	  let blocks = document.querySelectorAll('#channel-blocks > li')
 
 // // Loop through all blocks and give earlier ones a higher z-index
 // so the first blocks appear on top of the others.
   blocks.forEach((block, index) => {
-	 let baseZ = blocks.length - index
+  let baseZ = blocks.length - index
   block.dataset.baseZ = baseZ
   block.style.setProperty('--z', baseZ)
 
   })
 
-    // scroll highlight: rotate + bring to front
-  let activeClass = 'active-block'
+// scroll highlight: rotate + bring to front
+let activeClass = 'active-block'
+let topZ = blocks.length
 
-  blocks.forEach((block) => {
-    let blockObserver = new IntersectionObserver(([entry]) => {
-      if (entry.isIntersecting) {
 
-		  // reset everyone back to their base z-index
-  blocks.forEach(b => {
-    b.classList.remove(activeClass)
-    b.style.setProperty('--z', b.dataset.baseZ)
+blocks.forEach((block) => {
+  let blockObserver = new IntersectionObserver(([entry]) => {
+    if (!entry.isIntersecting) return
+
+    // run only once per block
+    if (block.dataset.stuck === 'true') return
+    block.dataset.stuck = 'true'
+
+    // bring it to the front permanently
+    topZ += 1
+    block.style.setProperty('--z', topZ)
+
+    // keep the rotated state permanently
+    block.classList.add('stays')
+
+  }, {
+    root: null,
+    rootMargin: '-35% 0% -35% 0%',
   })
 
-  // make this one active + put it on top
-  block.classList.add(activeClass)
-  block.style.setProperty('--z', 9999)
-}
-
-    }, {
-      root: null,
-      rootMargin: '-35% 0% -35% 0%',
-    })
-
-    blockObserver.observe(block)
-  })
-
+  blockObserver.observe(block)
+})
 })
 
 

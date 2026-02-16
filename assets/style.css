@@ -203,6 +203,28 @@ header p {
      padding: 0.25em 0.5em;
 }
 
+.header-buttons {
+     margin-top: 0.5em;
+     display: flex;
+     flex-wrap: wrap;
+     justify-content: center;
+     gap: 0.5em;
+}
+
+.header-btn {
+     font-family: var(--font);
+     font-size: 1rem;
+     display: inline-block;
+     background: #fff;
+     padding: 0.25em 0.5em;
+     border: 0.125rem solid var(--window-border, #000);
+     cursor: pointer;
+}
+
+.header-btn:hover {
+     background: #f0f0f0;
+}
+
 footer {
      text-align: left;
      margin-top: 6rem;
@@ -279,8 +301,8 @@ main section {
 
 #channel-blocks>li {
      transition: transform 400ms ease;
-      z-index: var(--z, 1); 
-
+     z-index: var(--z, 1); 
+ 
      /* z-index: 1; */
      width: 100%;
      max-width: 15rem;
@@ -298,6 +320,10 @@ main section {
 #channel-blocks > li.active-block{
       transform: rotate(calc(var(--r, 0deg) + 4deg));
 
+}
+
+#channel-blocks > li.stays{
+  transform: rotate(calc(var(--r, 0deg) + 4deg));
 }
 
 
@@ -361,6 +387,10 @@ main section {
      margin: 0;
      padding: var(--space-block);
      background: var(--window-body);
+}
+
+#channel-blocks li .block-text {
+     text-align: left;
 }
 
 
