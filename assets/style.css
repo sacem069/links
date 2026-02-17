@@ -19,8 +19,6 @@ html {
      --space-block: 0.75rem;
      --measure: 65ch;
      --font: 'Electrolize', sans-serif;
-     --blur-amount: 1.5625rem;
-     --grain-opacity: 0.15;
      --window-border: #c0c0c0;
      --window-titlebar: #c0c0c0;
      --window-body: #ffffff;
@@ -85,6 +83,7 @@ body.dream-world {
      background-color: var(--color-bg);
 }
 
+/* Prevent background scrolling when dialog is open */
 body:has(dialog[open]) {
      overflow: hidden;
 }
@@ -333,6 +332,8 @@ main section {
      
 }
 
+
+/* When a block becomes active or stays selected, it rotates 4 degrees more than its original rotation */
 #channel-blocks > li.active-block{
       transform: rotate(calc(var(--r, 0deg) + 4deg));
 
@@ -348,14 +349,16 @@ body:not(.dream-world) #channel-blocks > li {
      z-index: 1;
 }
 
-#channel-blocks>li:nth-child(8n+1) { --r: -5deg;}
-#channel-blocks>li:nth-child(8n+2) { --r: 3deg;}
-#channel-blocks>li:nth-child(8n+3) { --r: -4deg;}
-#channel-blocks>li:nth-child(8n+4) { --r: 2deg;}
-#channel-blocks>li:nth-child(8n+5) {--r: -3deg;}
-#channel-blocks>li:nth-child(8n+6) {--r: 4deg;}
-#channel-blocks>li:nth-child(8n+7) {--r: -8deg;}
-#channel-blocks>li:nth-child(8n) {--r: 5deg;}
+
+/* I created a rotation system where every 7 blocks receive a specific rotation value. The pattern repeats every 7 elements, creating a structured but organic collage effect. Each block gets a rotation stored in a CSS variable, which is later used in the transform. */
+#channel-blocks>li:nth-child(7n+1) { --r: -15deg;}
+#channel-blocks>li:nth-child(7n+2) { --r: 3deg;}
+#channel-blocks>li:nth-child(7n+3) { --r: -4deg;}
+#channel-blocks>li:nth-child(7n+4) { --r: 2deg;}
+#channel-blocks>li:nth-child(7n+5) {--r: -3deg;}
+#channel-blocks>li:nth-child(7n+6) {--r: 4deg;}
+#channel-blocks>li:nth-child(7n+7) {--r: -8deg;}
+#channel-blocks>li:nth-child(7n) {--r: 5deg;}
 
 /* Dream World: no rotation, blocks centered */
 body.dream-world #channel-blocks > li,
@@ -364,6 +367,8 @@ body.dream-world #channel-blocks > li.stays {
      --r: 0deg;
      transform: rotate(0deg);
 }
+
+
 
 @media (width > 768px) {
      body.dream-world #channel-blocks {
@@ -482,7 +487,6 @@ main img,
      #channel-blocks img {
           width: auto;
           max-width: min(100%, 35rem);
-
      }
 }
 
@@ -526,6 +530,7 @@ main iframe,
      border-style: inset;
 }
 
+/* Im hiding the actual audio player */
 .block--audio .audio-el {
      display: none;
 }

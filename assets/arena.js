@@ -12,14 +12,9 @@ let placeChannelInfo = (channelData) => {
 
 
 
-
 // Then our big function for specific-block-type rendering:
 let renderBlock = (blockData) => {
 	let channelBlocks = document.querySelector('#channel-blocks')
-
-
-	// ——— LINK ———
-
 	if (blockData.type == 'Link') {
 
 		let linkItem = `
@@ -193,46 +188,46 @@ fetchJson(`https://api.are.na/v3/channels/${channelSlug}/contents?per=100&sort=p
 
 		renderBlock(blockData) // Pass the single block’s data to the render function.
 	})
-	
 
-	  let blocks = document.querySelectorAll('#channel-blocks > li')
+	// // Loop through all blocks and give earlier ones a higher z-index
+	// So the first blocks appear on top of the others.
 
-// // Loop through all blocks and give earlier ones a higher z-index
-// So the first blocks appear on top of the others.
-  blocks.forEach((block, index) => {
-  let baseZ = blocks.length - index
-  block.dataset.baseZ = baseZ
-  block.style.setProperty('--z', baseZ)
+	let blocks = document.querySelectorAll('#channel-blocks > li')
 
-  })
+	blocks.forEach((block, index) => {
+		let baseZ = blocks.length - index
+		block.dataset.baseZ = baseZ
+		block.style.setProperty('--z', baseZ)
 
-// scroll highlight: rotate + bring to front
-let activeClass = 'active-block'
-let topZ = blocks.length
+	})
+
+	// scroll highlight: rotate + bring to front
+	let activeClass = 'active-block'
+	let topZ = blocks.length
 
 
-blocks.forEach((block) => {
-  let blockObserver = new IntersectionObserver(([entry]) => {
-    if (!entry.isIntersecting) return
+	blocks.forEach((block) => {
+		let blockObserver = new IntersectionObserver(([entry]) => {
+			if (!entry.isIntersecting) return
 
-    // run only once per block
-    if (block.dataset.stuck === 'true') return
-    block.dataset.stuck = 'true'
+			// run only once per block
+			if (block.dataset.stuck === 'true') return
+			block.dataset.stuck = 'true'
 
-    // bring it to the front permanently
-    topZ += 1
-    block.style.setProperty('--z', topZ)
+			// bring it to the front permanently
+			topZ += 1
+			block.style.setProperty('--z', topZ)
 
-    // keep the rotated state permanently
-    block.classList.add('stays')
+			// keeps the rotated state permanently
+			block.classList.add('stays')
 
-  }, {
-    root: null,
-    rootMargin: '-35% 0% -35% 0%',
-  })
+		}, {
+			root: null,
+			rootMargin: '-35% 0% -35% 0%',
+		})
 
-  blockObserver.observe(block)
-})
+		blockObserver.observe(block)
+	})
 })
 
 
@@ -281,6 +276,8 @@ document.addEventListener('click', (event) => {
 
 
 // Real World / Dream World toggle
+// When a header button is clicked, the code checks if it’s Dream or Real. It then updates the body class to switch the design and highlights the selected button.
+// const creates a variable that cannot be changed to something else later.
 document.querySelectorAll('.header-btn').forEach((btn) => {
 	btn.addEventListener('click', () => {
 		const isDream = btn.dataset.world === 'dream'
@@ -290,6 +287,8 @@ document.querySelectorAll('.header-btn').forEach((btn) => {
 		else document.querySelector('.header-btn[data-world="real"]').classList.add('active')
 	})
 })
+
+
 // Set initial view to Real World (no dream-world class on body) and highlight that button; ?. = only run if the button exists.
 document.body.classList.remove('dream-world')
 document.querySelector('.header-btn[data-world="real"]')?.classList.add('active')
