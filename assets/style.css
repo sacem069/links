@@ -68,7 +68,7 @@ html {
 
 body {
      font-family: var(--font);
-     background-color: var(--color-bg);
+     background-color: #000;
      min-height: 100vh;
      margin: 0;
      padding: var(--space-page);
@@ -79,6 +79,10 @@ body {
      font-size: 0.9375rem;
      display: flex;
      flex-direction: column;
+}
+
+body.dream-world {
+     background-color: var(--color-bg);
 }
 
 body:has(dialog[open]) {
@@ -221,8 +225,19 @@ header p {
      cursor: pointer;
 }
 
+.header-btn.active {
+     font-weight: bold;
+     border-style: inset;
+}
+
+
 .header-btn:hover {
      background: #f0f0f0;
+}
+
+.header-btn.active {
+     font-weight: bold;
+     border-style: inset;
 }
 
 footer {
@@ -294,7 +309,8 @@ main section {
      margin-top: 5rem;
      display: grid;
      grid-template-columns: 1fr;
-     grid-auto-rows: 16rem;
+     grid-auto-rows: minmax(16rem, auto);
+     row-gap: 1rem;
      position: relative;
      margin-bottom: 10rem;
 }
@@ -308,7 +324,7 @@ main section {
      max-width: 15rem;
      justify-self: center;
      align-self: start;
-     margin-top: 1rem;
+     margin-top: 0;
      transform: rotate(var(--r, 0deg));
      position: relative;
      background: var(--window-body);
@@ -327,6 +343,11 @@ main section {
 }
 
 
+/* Real World: no overstacking — same z-index for all blocks */
+body:not(.dream-world) #channel-blocks > li {
+     z-index: 1;
+}
+
 #channel-blocks>li:nth-child(8n+1) { --r: -5deg;}
 #channel-blocks>li:nth-child(8n+2) { --r: 3deg;}
 #channel-blocks>li:nth-child(8n+3) { --r: -4deg;}
@@ -336,19 +357,48 @@ main section {
 #channel-blocks>li:nth-child(8n+7) {--r: -8deg;}
 #channel-blocks>li:nth-child(8n) {--r: 5deg;}
 
+/* Dream World: no rotation, blocks centered */
+body.dream-world #channel-blocks > li,
+body.dream-world #channel-blocks > li.active-block,
+body.dream-world #channel-blocks > li.stays {
+     --r: 0deg;
+     transform: rotate(0deg);
+}
+
+@media (width > 768px) {
+     body.dream-world #channel-blocks {
+          grid-template-columns: 1fr 1fr;
+          justify-items: center;
+          max-width: min(100%, 52rem);
+          margin-left: auto;
+          margin-right: auto;
+     }
+     body.dream-world #channel-blocks > li:nth-child(odd) {
+          grid-column: 1;
+          justify-self: center;
+          margin-top: 1.5rem;
+     }
+     body.dream-world #channel-blocks > li:nth-child(even) {
+          grid-column: 2;
+          justify-self: center;
+          margin-top: 1.5rem;
+     }
+}
+
 
 @media (width > 768px) {
 
      #channel-blocks {
           margin-top: 13rem;
           grid-template-columns: 1fr 1fr;
-          grid-auto-rows: 20rem;
+          grid-auto-rows: minmax(20rem, auto);
           column-gap: 2rem;
+          row-gap: 2rem;
      }
 
      #channel-blocks>li {
           max-width: 23rem;
-          margin-top: 1.5rem;
+          margin-top: 0;
      }
 
      #channel-blocks>li:nth-child(odd) {
@@ -357,7 +407,6 @@ main section {
      }
 
      #channel-blocks>li:nth-child(even) {
-          margin-top: 7rem;
           grid-column: 2;
           justify-self: start;
      }
@@ -479,4 +528,29 @@ main iframe,
 
 .block--audio .audio-el {
      display: none;
+}
+
+
+/* Dream World: no rotation, blocks centered */
+body.dream-world #channel-blocks > li,
+body.dream-world #channel-blocks > li.active-block,
+body.dream-world #channel-blocks > li.stays {
+     --r: 0deg;
+     transform: rotate(0deg);
+}
+
+@media (width > 768px) {
+     body.dream-world #channel-blocks {
+          grid-template-columns: 1fr 1fr;
+     }
+     body.dream-world #channel-blocks > li:nth-child(odd){
+          grid-column: 1;
+          justify-self: center;
+          margin-top: 1.5rem;
+     }
+     body.dream-world #channel-blocks > li:nth-child(even) {
+ grid-column: 2;
+          justify-self: center;
+          margin-top: 1.5rem;
+     }
 }

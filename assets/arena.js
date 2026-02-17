@@ -198,7 +198,7 @@ fetchJson(`https://api.are.na/v3/channels/${channelSlug}/contents?per=100&sort=p
 	  let blocks = document.querySelectorAll('#channel-blocks > li')
 
 // // Loop through all blocks and give earlier ones a higher z-index
-// so the first blocks appear on top of the others.
+// So the first blocks appear on top of the others.
   blocks.forEach((block, index) => {
   let baseZ = blocks.length - index
   block.dataset.baseZ = baseZ
@@ -237,6 +237,7 @@ blocks.forEach((block) => {
 
 
 
+
 let modalButton = document.querySelector('#info-modal')
 let modalDialog = document.querySelector('#dialog')
 let closeButton = modalDialog.querySelector('button')
@@ -258,6 +259,8 @@ document.addEventListener('click', (event) => {
 	}
 })
 
+
+
 //make audio play and stop
 
 document.addEventListener('click', (event) => {
@@ -275,6 +278,23 @@ document.addEventListener('click', (event) => {
 		playBtn.textContent = '▶'
 	}
 })
+
+
+// Real World / Dream World toggle
+document.querySelectorAll('.header-btn').forEach((btn) => {
+	btn.addEventListener('click', () => {
+		const isDream = btn.dataset.world === 'dream'
+		document.body.classList.toggle('dream-world', isDream)
+		document.querySelectorAll('.header-btn').forEach((b) => b.classList.remove('active'))
+		if (isDream) document.querySelector('.header-btn[data-world="dream"]').classList.add('active')
+		else document.querySelector('.header-btn[data-world="real"]').classList.add('active')
+	})
+})
+// Set initial view to Real World (no dream-world class on body) and highlight that button; ?. = only run if the button exists.
+document.body.classList.remove('dream-world')
+document.querySelector('.header-btn[data-world="real"]')?.classList.add('active')
+
+
 
 
 
