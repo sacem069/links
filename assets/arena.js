@@ -201,26 +201,20 @@ fetchJson(`https://api.are.na/v3/channels/${channelSlug}/contents?per=100&sort=p
 
 	})
 
-	// scroll highlight: rotate + bring to front
+	// scroll highlight: add class when block is in view, remove when it leaves (so it moves every time you pass through)
 	let activeClass = 'active-block'
 	let topZ = blocks.length
 
-
 	blocks.forEach((block) => {
+		let baseZ = block.dataset.baseZ
 		let blockObserver = new IntersectionObserver(([entry]) => {
-			if (!entry.isIntersecting) return
-
-			// run only once per block
-			if (block.dataset.stuck === 'true') return
-			block.dataset.stuck = 'true'
-
-			// bring it to the front permanently
-			topZ += 1
-			block.style.setProperty('--z', topZ)
-
-			// keeps the rotated state permanently
-			block.classList.add('stays')
-
+			if (entry.isIntersecting) {
+				block.classList.add(activeClass)
+				block.style.setProperty('--z', topZ + 1) // bring to front while in view
+			} else {
+				block.classList.remove(activeClass)
+				block.style.setProperty('--z', baseZ) // back to normal when you scroll away
+			}
 		}, {
 			root: null,
 			rootMargin: '-35% 0% -35% 0%',
