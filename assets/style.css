@@ -191,9 +191,23 @@ header p {
      margin: 0.5em 0;
 }
 
+#channel-link {
+     position: fixed;
+     top: var(--space-page);
+     left: var(--space-page);
+     background: none;
+     padding: 0;
+     margin: 0;
+     z-index: 15;
+}
+
+body:not(.dream-world) #channel-link {
+     color: #fff;
+}
+
 #channel-title {
      font-size: 1.25rem;
-     margin: 0 0 0.25em;
+     /* margin: 0 0 0.25em; */
      display: inline-block;
      background: #fff;
      padding: 0.25em 0.5em;
@@ -201,8 +215,8 @@ header p {
 
 header p a,
 header p {
-     display: inline-block;
-     background: #fff;
+     /* display: inline-block;
+     background: #fff; */
      padding: 0.25em 0.5em;
 }
 
@@ -404,7 +418,7 @@ body.dream-world #channel-blocks > li.stays {
 @media (width > 768px) {
 
      #channel-blocks {
-          margin-top: 13rem;
+          margin-top: 16rem;
           grid-template-columns: 1fr 1fr;
           grid-auto-rows: minmax(20rem, auto);
           column-gap: 2rem;
