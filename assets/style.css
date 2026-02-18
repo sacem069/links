@@ -77,11 +77,23 @@ body {
      font-size: 0.9375rem;
      display: flex;
      flex-direction: column;
+     
+}
+
+
+body:not(.dream-world) {
+  background-image: url('glitch.gif');
+  background-size: cover;
+  background-position: center;
+  background-attachment: fixed;
 }
 
 body.dream-world {
-     background-color: var(--color-bg);
+  background-image: none;
+  background-color: var(--color-bg);
 }
+
+
 
 /* Prevent background scrolling when dialog is open */
 body:has(dialog[open]) {
@@ -215,8 +227,6 @@ body:not(.dream-world) #channel-link {
 
 header p a,
 header p {
-     /* display: inline-block;
-     background: #fff; */
      padding: 0.25em 0.5em;
 }
 
