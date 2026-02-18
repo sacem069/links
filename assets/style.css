@@ -425,6 +425,18 @@ body.dream-world #channel-blocks > li.stays {
           grid-column: 2;
           justify-self: start;
      }
+
+      /* Real World: 3 columns */
+     body:not(.dream-world) #channel-blocks {
+          grid-template-columns: 1fr 1fr 1fr;
+     }
+
+/* grid column set to auto makes the blocks being able to cover for the spaces that the images were leaving when hidden in the real world */
+     body:not(.dream-world) #channel-blocks > li:nth-child(odd),
+     body:not(.dream-world) #channel-blocks > li:nth-child(even) {
+          grid-column: auto;
+          justify-self: center;
+     }
 }
 
 
