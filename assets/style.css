@@ -349,6 +349,16 @@ body:not(.dream-world) #channel-blocks > li {
      z-index: 1;
 }
 
+/* When its real world show every block except images */
+body:not(.dream-world) #channel-blocks > li.block--image {
+     display: none;
+}
+
+/* When its dream world show only images */
+body.dream-world #channel-blocks > li:not(.block--image) {
+     display: none;
+}
+
 
 /* I created a rotation system where every 7 blocks receive a specific rotation value. The pattern repeats every 7 elements, creating a structured but organic collage effect. Each block gets a rotation stored in a CSS variable, which is later used in the transform. */
 #channel-blocks>li:nth-child(7n+1) { --r: -15deg;}
@@ -543,6 +553,9 @@ body.dream-world #channel-blocks > li.stays {
      --r: 0deg;
      transform: rotate(0deg);
 }
+
+
+
 
 @media (width > 768px) {
      body.dream-world #channel-blocks {
