@@ -392,6 +392,10 @@ body:not(.dream-world) #channel-blocks > li {
      filter: invert(var(--real-world-invert));
      max-width: 22rem;
      font-size: 0.65rem;
+     transition: transform 200ms ease;
+}
+body:not(.dream-world) #channel-blocks > li:hover {
+     transform: rotate(var(--r, 0deg)) scale(1.08);
 }
 body:not(.dream-world) #channel-blocks li > p:first-of-type {
      display: none;
