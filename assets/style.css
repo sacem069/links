@@ -1,5 +1,6 @@
 @import url('https://fonts.googleapis.com/css2?family=Electrolize&display=swap');
 
+
 html {
      box-sizing: border-box;
      width: 100%;
@@ -23,6 +24,7 @@ html {
      --window-titlebar: #c0c0c0;
      --window-body: #ffffff;
      --center-width: 100%;
+     --real-world-invert: 0.9;
 }
 
 @media (width > 768px) {
@@ -340,6 +342,7 @@ main section {
 
  body.dream-world #channel-blocks {
      grid-auto-rows: minmax(20rem, auto);
+     
 
           
      }
@@ -347,8 +350,6 @@ main section {
 #channel-blocks>li {
      transition: transform 400ms ease;
      z-index: var(--z, 1); 
- 
-     /* z-index: 1; */
      width: 100%;
      max-width: 15rem;
      justify-self: center;
@@ -365,7 +366,7 @@ main section {
 
 /* When a block becomes active or stays selected, it rotates 4 degrees more than its original rotation */
 #channel-blocks > li.active-block{
-      transform: rotate(calc(var(--r, 0deg) + 4deg));
+      transform: rotate(calc(var(--r, 0deg) + 40deg));
 
 }
 
@@ -374,12 +375,39 @@ main section {
 }
 
 
-/* Real World: no overstacking — same z-index for all blocks */
+body:not(.dream-world) #channel-blocks {
+     grid-template-columns: 1fr 1fr;
+}
 body:not(.dream-world) #channel-blocks > li {
      z-index: 1;
+     background: transparent;
+     border: none;
+     filter: invert(var(--real-world-invert));
+     max-width: 22rem;
+     font-size: 0.65rem;
+}
+body:not(.dream-world) #channel-blocks li > p:first-of-type {
+     display: none;
+}
+body:not(.dream-world) #channel-blocks li figure,
+body:not(.dream-world) #channel-blocks li .block-text,
+body:not(.dream-world) #channel-blocks li .block-embed,
+body:not(.dream-world) #channel-blocks li > p:not(:first-of-type),
+body:not(.dream-world) #channel-blocks li > video,
+body:not(.dream-world) #channel-blocks li > audio {
+     background: transparent;
+     opacity: 0.65;
+}
+body:not(.dream-world) #channel-blocks li .block-text,
+body:not(.dream-world) #channel-blocks li > p a {
+     font-size: 0.65rem;
+}
+body:not(.dream-world) #channel-blocks li .block-text {
+     max-width: 22ch;
+     padding: 0.5rem;
 }
 
-/* When its real world show every block except images */
+
 body:not(.dream-world) #channel-blocks > li.block--image {
      display: none;
 }
@@ -391,7 +419,7 @@ body.dream-world #channel-blocks > li:not(.block--image) {
 
 
 /* I created a rotation system where every 7 blocks receive a specific rotation value. The pattern repeats every 7 elements, creating a structured but organic collage effect. Each block gets a rotation stored in a CSS variable, which is later used in the transform. */
-#channel-blocks>li:nth-child(7n+1) { --r: -15deg;}
+#channel-blocks>li:nth-child(7n+1) { --r: -150deg;}
 #channel-blocks>li:nth-child(7n+2) { --r: 3deg;}
 #channel-blocks>li:nth-child(7n+3) { --r: -4deg;}
 #channel-blocks>li:nth-child(7n+4) { --r: 2deg;}
@@ -400,12 +428,16 @@ body.dream-world #channel-blocks > li:not(.block--image) {
 #channel-blocks>li:nth-child(7n+7) {--r: -8deg;}
 #channel-blocks>li:nth-child(7n) {--r: 5deg;}
 
-/* Dream World: no rotation, blocks centered */
-body.dream-world #channel-blocks > li,
-body.dream-world #channel-blocks > li.active-block,
-body.dream-world #channel-blocks > li.stays {
+/* Dream World: no rotation, blocks centered; label at bottom; Tiffany font — only for image blocks */
+body.dream-world #channel-blocks > li.block--image,
+body.dream-world #channel-blocks > li.block--image.active-block,
+body.dream-world #channel-blocks > li.block--image.stays {
      --r: 0deg;
      transform: rotate(0deg);
+     display: flex;
+     flex-direction: column-reverse;
+     font-family: "adobe-handwriting-tiffany", sans-serif;
+     font-size: 1.25rem;
 }
 
 
@@ -417,6 +449,13 @@ body.dream-world #channel-blocks > li.stays {
           max-width: min(100%, 52rem);
           margin-left: auto;
           margin-right: auto;
+     }
+     body.dream-world #channel-blocks > li.block--image {
+          font-size: 1.5rem;
+     }
+     body.dream-world #channel-blocks li > p:first-of-type {
+          font-size: 1.4rem;
+          padding: 1rem 1.25rem;
      }
      body.dream-world #channel-blocks > li:nth-child(odd) {
           grid-column: 1;
@@ -456,9 +495,8 @@ body.dream-world #channel-blocks > li.stays {
           justify-self: start;
      }
 
-      /* Real World: 3 columns */
      body:not(.dream-world) #channel-blocks {
-          grid-template-columns: 1fr 1fr 1fr;
+          grid-template-columns: 1fr 1fr 1fr 1fr;
      }
 
 /* grid column set to auto makes the blocks being able to cover for the spaces that the images were leaving when hidden in the real world */
@@ -466,6 +504,9 @@ body.dream-world #channel-blocks > li.stays {
      body:not(.dream-world) #channel-blocks > li:nth-child(even) {
           grid-column: auto;
           justify-self: center;
+     }
+     body:not(.dream-world) #channel-blocks > li {
+          max-width: 38rem;
      }
 }
 
@@ -481,6 +522,11 @@ body.dream-world #channel-blocks > li.stays {
      background: var(--window-titlebar);
      font-size: 0.75rem;
      border-bottom: 0.0625rem solid var(--window-border);
+}
+body.dream-world #channel-blocks li > p:first-of-type {
+     padding: 0.75rem 1rem;
+     font-size: 1.15rem;
+     background: #ffffff;
 }
 
 
@@ -544,7 +590,7 @@ main img,
 
 main video,
 #channel-blocks video {
-     max-width: min(100%, 35rem);
+     max-width: min(100%, 50rem);
 }
 
 main iframe,
@@ -588,12 +634,16 @@ main iframe,
 }
 
 
-/* Dream World: no rotation, blocks centered */
-body.dream-world #channel-blocks > li,
-body.dream-world #channel-blocks > li.active-block,
-body.dream-world #channel-blocks > li.stays {
+/* Dream World: no rotation, blocks centered; label at bottom; Tiffany font — only for image blocks */
+body.dream-world #channel-blocks > li.block--image,
+body.dream-world #channel-blocks > li.block--image.active-block,
+body.dream-world #channel-blocks > li.block--image.stays {
      --r: 0deg;
      transform: rotate(0deg);
+     display: flex;
+     flex-direction: column-reverse;
+     font-family: "adobe-handwriting-tiffany", sans-serif;
+     font-size: 1.25rem;
 }
 
 

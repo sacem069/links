@@ -53,7 +53,8 @@ let renderBlock = (blockData) => {
 		let img = blockData.image
 		let src = img?.display?.url || img?.original?.url || img?.large?.src_2x || ''
 		if (!src) return
-		let imageItem = `<li class="block block--image"><p><em>Image</em></p><figure><img src="${src}" alt="${img?.alt_text || ''}" loading="lazy">${blockData.title ? `<figcaption>${blockData.title}</figcaption>` : ''}</figure></li>`
+		let label = blockData.title || 'Image'
+		let imageItem = `<li class="block block--image"><p><em>${label}</em></p><figure><img src="${src}" alt="${img?.alt_text || ''}" loading="lazy">${blockData.title ? `<figcaption>${blockData.title}</figcaption>` : ''}</figure></li>`
 		channelBlocks.insertAdjacentHTML('beforeend', imageItem)
 	}
 
@@ -91,7 +92,7 @@ let renderBlock = (blockData) => {
 		if (!url) return
 
 		if (contentType.includes('video')) {
-			channelBlocks.insertAdjacentHTML('beforeend', `<li><p><em>Video</em></p><video controls src="${url}"></video></li>`)
+			channelBlocks.insertAdjacentHTML('beforeend', `<li><p><em>Video</em></p><video controls autoplay muted loop playsinline src="${url}"></video></li>`)
 		}
 		else if (contentType.includes('pdf')) {
 			channelBlocks.insertAdjacentHTML('beforeend', `<li><p><em>PDF</em></p><p><a href="${url}" target="_blank" rel="noopener">View PDF ↗</a></p></li>`)
