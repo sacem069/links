@@ -89,6 +89,13 @@ body:not(.dream-world) {
   background-position: center;
   background-attachment: fixed;
 }
+@media (width < 769px) {
+  body:not(.dream-world) {
+    background-attachment: scroll;
+    background-size: 100% auto;
+    background-repeat: repeat-y;
+  }
+}
 
 body.dream-world {
   background-image: none;
