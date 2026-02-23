@@ -276,7 +276,7 @@ document.addEventListener('click', (event) => {
 document.querySelectorAll('.header-btn').forEach((btn) => {
 	btn.addEventListener('click', () => {
 		const isDream = btn.dataset.world === 'dream'
-		document.body.classList.toggle('dream-world', isDream)
+		document.body.classList.toggle('human-world', isDream)
 		document.querySelectorAll('.header-btn').forEach((b) => b.classList.remove('active'))
 		if (isDream) document.querySelector('.header-btn[data-world="dream"]').classList.add('active')
 		else document.querySelector('.header-btn[data-world="real"]').classList.add('active')
@@ -284,8 +284,8 @@ document.querySelectorAll('.header-btn').forEach((btn) => {
 })
 
 
-// Set initial view to Real World (no dream-world class on body) and highlight that button; ?. = only run if the button exists.
-document.body.classList.remove('dream-world')
+// Set initial view to Real World (no human-world class on body) and highlight that button; ?. = only run if the button exists.
+document.body.classList.remove('human-world')
 document.querySelector('.header-btn[data-world="real"]')?.classList.add('active')
 
 

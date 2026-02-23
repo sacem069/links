@@ -24,7 +24,8 @@ html {
      --window-titlebar: #c0c0c0;
      --window-body: #ffffff;
      --center-width: 100%;
-     --real-world-invert: 0.9;
+     --media-world-invert: 0.9;
+     --nav-height: 4rem;
 }
 
 @media (width > 768px) {
@@ -36,9 +37,6 @@ html {
 }
 
 .info-icon {
-     position: fixed;
-     top: var(--space-page);
-     right: var(--space-page);
      display: flex;
      align-items: center;
      justify-content: center;
@@ -47,7 +45,6 @@ html {
      background: var(--window-titlebar);
      border: 0.125rem outset var(--window-border);
      text-decoration: none;
-     z-index: 25;
 }
 
 .info-icon__symbol {
@@ -72,6 +69,7 @@ body {
      min-height: 100vh;
      margin: 0;
      padding: var(--space-page);
+     padding-top: calc(var(--nav-height) + var(--space-page));
      padding-bottom: 4rem;
      position: relative;
      width: 100%;
@@ -83,21 +81,21 @@ body {
 }
 
 
-body:not(.dream-world) {
+body:not(.human-world) {
   background-image: url('glitch.gif');
   background-size: cover;
   background-position: center;
   background-attachment: fixed;
 }
 @media (width < 769px) {
-  body:not(.dream-world) {
+  body:not(.human-world) {
     background-attachment: scroll;
     background-size: 100% auto;
     background-repeat: repeat-y;
   }
 }
 
-body.dream-world {
+body.human-world {
   background-image: none;
   background-color: var(--color-bg);
 }
@@ -181,7 +179,6 @@ footer {
           top: 0;
           left: 0;
           right: 0;
-          z-index: 10;
           padding-top: var(--space-page);
      }
 
@@ -214,7 +211,7 @@ header p {
 
 #channel-link {
      position: fixed;
-     top: var(--space-page);
+     top: calc(var(--nav-height) + var(--space-page));
      left: var(--space-page);
      background: none;
      padding: 0;
@@ -222,15 +219,14 @@ header p {
      z-index: 15;
 }
 
-body:not(.dream-world) #channel-link {
+body:not(.human-world) #channel-link {
      color: #fff;
 }
 
 #channel-title {
-     font-size: 1.25rem;
-     /* margin: 0 0 0.25em; */
-     display: inline-block;
-     background: #fff;
+     font-size: 5rem;
+     color: #fff;
+     /* display: inline-block; */
      padding: 0.25em 0.5em;
 }
 
@@ -240,21 +236,38 @@ header p {
 }
 
 .header-buttons {
-     margin-top: 0.5em;
+     position: fixed;
+     top: 0;
+     left: 0;
+     right: 0;
+     z-index: 1000;
      display: flex;
-     flex-wrap: wrap;
-     justify-content: center;
-     gap: 0.5em;
+     justify-content: space-between;
+     background: #fff;
+     padding: 1rem 2.5rem;
+     height: var(--nav-height);
+     align-items: center;
+}
+body.human-world .header-buttons {
+     background: var(--window-body);
+     border-bottom: 0.1875rem outset var(--window-border);
+}
+body:not(.human-world) .header-buttons {
+     color: #fff;
+     background: rgba(0, 0, 0, 0.15);
+     backdrop-filter: blur(7px);
+     -webkit-backdrop-filter: blur(7px);
+     filter: invert(var(--media-world-invert));
 }
 
 .header-btn {
      font-family: var(--font);
-     font-size: 1rem;
+     font-size: 1.5rem;
      display: inline-block;
-     background: #fff;
-     padding: 0.25em 0.5em;
-     border: 0.125rem solid var(--window-border, #000);
      cursor: pointer;
+}
+.header-btn[data-world="dream"] {
+     font-family: "adobe-handwriting-tiffany", sans-serif;
 }
 
 .header-btn.active {
@@ -304,9 +317,8 @@ footer h2 {
 
 @media (width > 768px) {
      #channel-title {
-          font-size: 1.75rem;
+          font-size: 9rem;
      }
-
      main section h2,
      footer h2 {
           font-size: 1.25rem;
@@ -347,7 +359,7 @@ main section {
      margin-bottom: 10rem;
 }
 
- body.dream-world #channel-blocks {
+ body.human-world #channel-blocks {
      grid-auto-rows: minmax(20rem, auto);
      
 
@@ -382,49 +394,49 @@ main section {
 }
 
 
-body:not(.dream-world) #channel-blocks {
+body:not(.human-world) #channel-blocks {
      grid-template-columns: 1fr 1fr;
 }
-body:not(.dream-world) #channel-blocks > li {
+body:not(.human-world) #channel-blocks > li {
      z-index: 1;
      background: transparent;
      border: none;
-     filter: invert(var(--real-world-invert));
+     filter: invert(var(--media-world-invert));
      max-width: 22rem;
      font-size: 0.65rem;
      transition: transform 200ms ease;
 }
-body:not(.dream-world) #channel-blocks > li:hover {
+body:not(.human-world) #channel-blocks > li:hover {
      transform: rotate(var(--r, 0deg)) scale(1.08);
 }
-body:not(.dream-world) #channel-blocks li > p:first-of-type {
+body:not(.human-world) #channel-blocks li > p:first-of-type {
      display: none;
 }
-body:not(.dream-world) #channel-blocks li figure,
-body:not(.dream-world) #channel-blocks li .block-text,
-body:not(.dream-world) #channel-blocks li .block-embed,
-body:not(.dream-world) #channel-blocks li > p:not(:first-of-type),
-body:not(.dream-world) #channel-blocks li > video,
-body:not(.dream-world) #channel-blocks li > audio {
+body:not(.human-world) #channel-blocks li figure,
+body:not(.human-world) #channel-blocks li .block-text,
+body:not(.human-world) #channel-blocks li .block-embed,
+body:not(.human-world) #channel-blocks li > p:not(:first-of-type),
+body:not(.human-world) #channel-blocks li > video,
+body:not(.human-world) #channel-blocks li > audio {
      background: transparent;
      opacity: 0.65;
 }
-body:not(.dream-world) #channel-blocks li .block-text,
-body:not(.dream-world) #channel-blocks li > p a {
+body:not(.human-world) #channel-blocks li .block-text,
+body:not(.human-world) #channel-blocks li > p a {
      font-size: 0.65rem;
 }
-body:not(.dream-world) #channel-blocks li .block-text {
+body:not(.human-world) #channel-blocks li .block-text {
      max-width: 22ch;
      padding: 0.5rem;
 }
 
 
-body:not(.dream-world) #channel-blocks > li.block--image {
+body:not(.human-world) #channel-blocks > li.block--image {
      display: none;
 }
 
 /* When its dream world show only images */
-body.dream-world #channel-blocks > li:not(.block--image) {
+body.human-world #channel-blocks > li:not(.block--image) {
      display: none;
 }
 
@@ -440,9 +452,9 @@ body.dream-world #channel-blocks > li:not(.block--image) {
 #channel-blocks>li:nth-child(7n) {--r: 5deg;}
 
 /* Dream World: no rotation, blocks centered; label at bottom; Tiffany font — only for image blocks */
-body.dream-world #channel-blocks > li.block--image,
-body.dream-world #channel-blocks > li.block--image.active-block,
-body.dream-world #channel-blocks > li.block--image.stays {
+body.human-world #channel-blocks > li.block--image,
+body.human-world #channel-blocks > li.block--image.active-block,
+body.human-world #channel-blocks > li.block--image.stays {
      --r: 0deg;
      transform: rotate(0deg);
      display: flex;
@@ -454,26 +466,26 @@ body.dream-world #channel-blocks > li.block--image.stays {
 
 
 @media (width > 768px) {
-     body.dream-world #channel-blocks {
+     body.human-world #channel-blocks {
           grid-template-columns: 1fr 1fr;
           justify-items: center;
           max-width: min(100%, 52rem);
           margin-left: auto;
           margin-right: auto;
      }
-     body.dream-world #channel-blocks > li.block--image {
+     body.human-world #channel-blocks > li.block--image {
           font-size: 1.5rem;
      }
-     body.dream-world #channel-blocks li > p:first-of-type {
+     body.human-world #channel-blocks li > p:first-of-type {
           font-size: 1.4rem;
           padding: 1rem 1.25rem;
      }
-     body.dream-world #channel-blocks > li:nth-child(odd) {
+     body.human-world #channel-blocks > li:nth-child(odd) {
           grid-column: 1;
           justify-self: center;
           margin-top: 1.5rem;
      }
-     body.dream-world #channel-blocks > li:nth-child(even) {
+     body.human-world #channel-blocks > li:nth-child(even) {
           grid-column: 2;
           justify-self: center;
           margin-top: 1.5rem;
@@ -506,17 +518,17 @@ body.dream-world #channel-blocks > li.block--image.stays {
           justify-self: start;
      }
 
-     body:not(.dream-world) #channel-blocks {
+     body:not(.human-world) #channel-blocks {
           grid-template-columns: 1fr 1fr 1fr 1fr;
      }
 
 /* grid column set to auto makes the blocks being able to cover for the spaces that the images were leaving when hidden in the real world */
-     body:not(.dream-world) #channel-blocks > li:nth-child(odd),
-     body:not(.dream-world) #channel-blocks > li:nth-child(even) {
+     body:not(.human-world) #channel-blocks > li:nth-child(odd),
+     body:not(.human-world) #channel-blocks > li:nth-child(even) {
           grid-column: auto;
           justify-self: center;
      }
-     body:not(.dream-world) #channel-blocks > li {
+     body:not(.human-world) #channel-blocks > li {
           max-width: 38rem;
      }
 }
@@ -534,7 +546,7 @@ body.dream-world #channel-blocks > li.block--image.stays {
      font-size: 0.75rem;
      border-bottom: 0.0625rem solid var(--window-border);
 }
-body.dream-world #channel-blocks li > p:first-of-type {
+body.human-world #channel-blocks li > p:first-of-type {
      padding: 0.75rem 1rem;
      font-size: 1.15rem;
      background: #ffffff;
@@ -646,9 +658,9 @@ main iframe,
 
 
 /* Dream World: no rotation, blocks centered; label at bottom; Tiffany font — only for image blocks */
-body.dream-world #channel-blocks > li.block--image,
-body.dream-world #channel-blocks > li.block--image.active-block,
-body.dream-world #channel-blocks > li.block--image.stays {
+body.human-world #channel-blocks > li.block--image,
+body.human-world #channel-blocks > li.block--image.active-block,
+body.human-world #channel-blocks > li.block--image.stays {
      --r: 0deg;
      transform: rotate(0deg);
      display: flex;
@@ -661,15 +673,15 @@ body.dream-world #channel-blocks > li.block--image.stays {
 
 
 @media (width > 768px) {
-     body.dream-world #channel-blocks {
+     body.human-world #channel-blocks {
           grid-template-columns: 1fr 1fr;
      }
-     body.dream-world #channel-blocks > li:nth-child(odd){
+     body.human-world #channel-blocks > li:nth-child(odd){
           grid-column: 1;
           justify-self: center;
           margin-top: 1.5rem;
      }
-     body.dream-world #channel-blocks > li:nth-child(even) {
+     body.human-world #channel-blocks > li:nth-child(even) {
  grid-column: 2;
           justify-self: center;
           margin-top: 1.5rem;
