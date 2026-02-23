@@ -13,7 +13,7 @@ html {
 }
 
 :root {
-     --color-bg: #C1FDE5;
+     --color-bg: #fffdf3;
      --color-info-card: #e0e0e0;
      --color-info-symbol: #2d2d2d;
      --space-page: 1rem;
@@ -42,8 +42,6 @@ html {
      justify-content: center;
      width: 2.5rem;
      height: 2.5rem;
-     background: var(--window-titlebar);
-     border: 0.125rem outset var(--window-border);
      text-decoration: none;
 }
 
@@ -51,13 +49,13 @@ html {
      display: flex;
      align-items: center;
      justify-content: center;
-     width: 1.25rem;
-     height: 1.25rem;
-     border: 0.125rem solid var(--color-info-symbol);
+     width: 2.25rem;
+     height: 2.25rem;
+     border: 0.125rem rgb(255, 255, 255);
      border-radius: 50%;
-     background: white;
-     color: var(--color-info-symbol);
-     font-size: 0.875rem;
+     background: rgba(255, 255, 255, 0.15);
+     color: rgb(255, 255, 255);
+     font-size: 1.875rem;
      font-weight: 700;
      font-style: normal;
      line-height: 1;
@@ -96,8 +94,29 @@ body:not(.human-world) {
 }
 
 body.human-world {
-  background-image: none;
-  background-color: var(--color-bg);
+  background-image: url('texture.jpg');
+  background-size: 100% auto;
+  background-position: center;
+  background-attachment: scroll;
+  background-repeat: repeat-y;
+}
+@media (width > 768px) {
+  body.human-world {
+    background-image: none;
+  }
+  body.human-world::before {
+    content: '';
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    width: 100vh;
+    height: 100vw;
+    transform: translate(-50%, -50%) rotate(90deg);
+    background-image: url('texture.jpg');
+    background-size: cover;
+    background-position: center;
+    z-index: -1;
+  }
 }
 
 
@@ -222,12 +241,18 @@ header p {
 body:not(.human-world) #channel-link {
      color: #fff;
 }
-
-#channel-title {
-     font-size: 5rem;
-     color: #fff;
-     /* display: inline-block; */
-     padding: 0.25em 0.5em;
+body.human-world #channel-link {
+     font-family: "adobe-handwriting-tiffany", sans-serif;
+}
+body.human-world .info-icon__symbol {
+     background: none;
+     border: none;
+     color: #000;
+     font-family: "adobe-handwriting-tiffany", sans-serif;
+}
+body.human-world dialog,
+body.human-world dialog button {
+     font-family: "adobe-handwriting-tiffany", sans-serif;
 }
 
 header p a,
@@ -254,10 +279,10 @@ body.human-world .header-buttons {
 }
 body:not(.human-world) .header-buttons {
      color: #fff;
-     background: rgba(0, 0, 0, 0.15);
+     background: rgba(255, 255, 255, 0.15);
      backdrop-filter: blur(7px);
      -webkit-backdrop-filter: blur(7px);
-     filter: invert(var(--media-world-invert));
+     /* filter: invert(var(--media-world-invert)); */
 }
 
 .header-btn {
@@ -272,17 +297,16 @@ body:not(.human-world) .header-buttons {
 
 .header-btn.active {
      font-weight: bold;
-     border-style: inset;
+     border: none;
 }
-
-
+.header-btn[data-world="dream"].active {
+     color: #C24A32;
+}
+.header-btn[data-world="real"].active {
+     color: #00D4CB;
+}
 .header-btn:hover {
      background: #f0f0f0;
-}
-
-.header-btn.active {
-     font-weight: bold;
-     border-style: inset;
 }
 
 footer {
@@ -316,9 +340,7 @@ footer h2 {
 }
 
 @media (width > 768px) {
-     #channel-title {
-          font-size: 9rem;
-     }
+
      main section h2,
      footer h2 {
           font-size: 1.25rem;
