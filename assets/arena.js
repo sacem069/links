@@ -283,9 +283,34 @@ document.querySelectorAll('.header-btn').forEach((btn) => {
 })
 
 
-// Set initial view to Real World (no human-world class on body) and highlight that button; ?. = only run if the button exists.
 document.body.classList.remove('human-world')
 document.querySelector('.header-btn[data-world="real"]')?.classList.add('active')
+
+let blockDialog = document.querySelector('#block-dialog')
+let blockDialogImg = document.querySelector('#block-dialog-img')
+let blockDialogClose = document.querySelector('#block-dialog-close')
+
+document.querySelector('#channel-blocks').addEventListener('click', (event) => {
+	if (!document.body.classList.contains('human-world')) return
+	let block = event.target.closest('.block--image')
+	if (!block) return
+	let img = block.querySelector('img')
+	if (!img) return
+	blockDialogImg.src = img.src
+	blockDialogImg.alt = img.alt
+	blockDialog.showModal()
+})
+
+blockDialogClose.addEventListener('click', () => {
+	blockDialog.close()
+	blockDialogImg.src = ''
+})
+
+document.addEventListener('click', (event) => {
+	if (event.target == document.documentElement) {
+		blockDialog.close()
+	}
+})
 
 
 
