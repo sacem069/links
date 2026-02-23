@@ -95,10 +95,10 @@ body:not(.human-world) {
 
 body.human-world {
   background-image: url('texture.jpg');
-  background-size: 100% auto;
+  background-size: cover;
   background-position: center;
-  background-attachment: scroll;
-  background-repeat: repeat-y;
+  background-attachment: fixed;
+  background-repeat: no-repeat;
 }
 @media (width > 768px) {
   body.human-world {
@@ -236,14 +236,44 @@ header p {
      padding: 0;
      margin: 0;
      z-index: 15;
+     text-decoration: underline;
 }
 
 body:not(.human-world) #channel-link {
      color: #fff;
 }
+
+
+
 body.human-world #channel-link {
      font-family: "adobe-handwriting-tiffany", sans-serif;
+     color: #373737;
+     font-size: 1rem;
+     margin-top: 1rem;
 }
+body.human-world #channel-users address {
+     background: none;
+     font-family: "adobe-handwriting-tiffany", sans-serif;
+}
+body.human-world #channel-users address a {
+     text-decoration: underline;
+}
+body.human-world footer h2 {
+     background: none;
+     font-family: "adobe-handwriting-tiffany", sans-serif;
+}
+
+
+@media (width > 768px) {
+body.human-world #channel-link {
+     font-size: 1.3rem;
+     margin-top: 10rem;
+     margin-left: 5rem;
+   
+}
+
+}
+
 body.human-world .info-icon__symbol {
      background: none;
      border: none;
@@ -310,7 +340,7 @@ body:not(.human-world) .header-buttons {
 }
 
 footer {
-     text-align: left;
+     text-align: center;
      margin-top: 6rem;
 }
 
