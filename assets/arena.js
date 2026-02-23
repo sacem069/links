@@ -3,10 +3,9 @@ let myUsername = 'maika-sacerdote'
 
 // First, let’s lay out some *functions*, starting with our basic metadata:
 let placeChannelInfo = (channelData) => {
-	// Target some elements in your HTML:
 	let channelTitle = document.querySelector('#channel-title')
 	let channelLink = document.querySelector('#channel-link')
-	channelTitle.innerHTML = channelData.title
+	if (channelTitle) channelTitle.innerHTML = channelData.title
 	channelLink.href = `https://www.are.na/channel/${channelSlug}`
 }
 
@@ -53,7 +52,7 @@ let renderBlock = (blockData) => {
 		let img = blockData.image
 		let src = img?.display?.url || img?.original?.url || img?.large?.src_2x || ''
 		if (!src) return
-		let label = blockData.title || 'Image'
+		let label = 'image'
 		let imageItem = `<li class="block block--image"><p><em>${label}</em></p><figure><img src="${src}" alt="${img?.alt_text || ''}" loading="lazy">${blockData.title ? `<figcaption>${blockData.title}</figcaption>` : ''}</figure></li>`
 		channelBlocks.insertAdjacentHTML('beforeend', imageItem)
 	}
@@ -143,7 +142,7 @@ let renderUser = (userData) => {
 		<address>
 		
 			<h3>${userData.name}</h3>
-			<p><a href="https://are.na/${userData.slug}">Are.na profile ↗</a></p>
+			<p><a href="https://are.na/${userData.slug}">Are.na profile</a></p>
 		</address>
 		`
 
