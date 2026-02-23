@@ -95,10 +95,10 @@ body:not(.human-world) {
 
 body.human-world {
   background-image: url('texture.jpg');
-  background-size: cover;
-  background-position: center;
+  background-size: 100% auto;
+  background-position: top center;
   background-attachment: fixed;
-  background-repeat: no-repeat;
+  background-repeat: repeat-y;
 }
 @media (width > 768px) {
   body.human-world {
