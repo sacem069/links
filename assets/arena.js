@@ -273,6 +273,7 @@ document.addEventListener('click', (event) => {
 // Real World / Dream World toggle
 // When a header button is clicked, the code checks if it’s Dream or Real. It then updates the body class to switch the design and highlights the selected button.
 // const creates a variable that cannot be changed to something else later.
+// window.scrollTo(0, 0) means telling the browser to scroll to a specific position on the page. window is basically the browser window. scrollTo is a built-in function that changes where the page is scrolled. The first number is the x position (left to right). The second number is the y position (top to bottom). So (0, 0) means: go to the very top-left corner of the page.
 document.querySelectorAll('.header-btn').forEach((btn) => {
 	btn.addEventListener('click', () => {
 		const isDream = btn.dataset.world === 'dream'
@@ -280,12 +281,15 @@ document.querySelectorAll('.header-btn').forEach((btn) => {
 		document.querySelectorAll('.header-btn').forEach((b) => b.classList.remove('active'))
 		if (isDream) document.querySelector('.header-btn[data-world="dream"]').classList.add('active')
 		else document.querySelector('.header-btn[data-world="real"]').classList.add('active')
+		window.scrollTo(0, 0)
 	})
 })
 
 
 document.body.classList.remove('human-world')
 document.querySelector('.header-btn[data-world="real"]')?.classList.add('active')
+
+
 
 let blockDialog = document.querySelector('#block-dialog')
 let blockDialogImg = document.querySelector('#block-dialog-img')
