@@ -454,7 +454,7 @@ body:not(.human-world) #channel-blocks > li {
      background: transparent;
      border: none;
      filter: invert(var(--media-world-invert));
-     max-width: 22rem;
+     max-width: 100%;
      font-size: 0.65rem;
      transition: transform 200ms ease;
 }
