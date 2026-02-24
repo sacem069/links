@@ -52,7 +52,7 @@ let renderBlock = (blockData) => {
 		let img = blockData.image
 		let src = img?.display?.url || img?.original?.url || img?.large?.src_2x || ''
 		if (!src) return
-		let label = 'image'
+		let label = blockData.title || 'image'
 		let imageItem = `<li class="block block--image"><p><em>${label}</em></p><figure><img src="${src}" alt="${img?.alt_text || ''}" loading="lazy">${blockData.title ? `<figcaption>${blockData.title}</figcaption>` : ''}</figure></li>`
 		channelBlocks.insertAdjacentHTML('beforeend', imageItem)
 	}

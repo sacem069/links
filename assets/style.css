@@ -85,20 +85,37 @@ body:not(.human-world) {
   background-position: center;
   background-attachment: fixed;
 }
+
 @media (width < 769px) {
   body:not(.human-world) {
-    background-attachment: scroll;
-    background-size: 100% auto;
-    background-repeat: repeat-y;
+    background-image: none;
+  }
+  body:not(.human-world)::after {
+    content: '';
+    position: fixed;
+    inset: 0;
+    background-image: url('glitch.gif');
+    background-size: cover;
+    background-position: center;
+    z-index: -1;
   }
 }
 
 body.human-world {
-  background-image: url('texture.jpg');
-  background-size: 100% auto;
-  background-position: top center;
-  background-attachment: fixed;
-  background-repeat: repeat-y;
+  background-image: none;
+}
+
+@media (width < 769px) {
+  body.human-world::after {
+    content: '';
+    position: fixed;
+    inset: 0;
+    background-image: url('texture.jpg');
+    background-size: contain;
+    background-position: top center;
+    /* background-repeat: no-repeat; */
+    z-index: -1;
+  }
 }
 @media (width > 768px) {
   body.human-world {
@@ -501,6 +518,7 @@ body:not(.human-world) #channel-blocks li .block-text {
 
 
 
+
 body:not(.human-world) #channel-blocks > li.block--image {
      display: none;
 }
@@ -792,7 +810,7 @@ body.human-world #channel-blocks > li.block--image.stays {
      line-height: 1;
      padding: 0;
      margin-right: -1.5rem;
-     margin-bottom: -1rem;
+     margin-bottom: -6rem;
 }
 
 #block-dialog::backdrop {
