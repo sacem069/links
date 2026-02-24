@@ -4,6 +4,7 @@
 		<meta charset="utf-8">
 		<meta name="viewport" content="width=device-width, initial-scale=1">
 		<link rel="stylesheet" href="https://use.typekit.net/ddt8web.css">
+		<link href="https://db.onlinewebfonts.com/c/3595ffc0e0b6cbc4936f634cabc629c7?family=Helvetica+Monospaced+Pro" rel="stylesheet">
 		<link href="assets/reset.css" rel="stylesheet">
 		<link href="assets/style.css" rel="stylesheet">
 		<script defer src="assets/arena.js"></script>
@@ -17,24 +18,40 @@
 			<p>This channel explores the human as a figure that exists within and for media environments — a human as an object, image, signal, performance, target, content, consumer of the social media.</p>
 			<button type="button">Close</button>
 		</dialog>
-		<header>
-			<nav class="header-buttons" aria-label="World view">
-				<button type="button" class="header-btn" data-world="dream">Human</button>
-				<a href="#" class="info-icon" id="info-modal" aria-label="Info">
-					<span class="info-icon__symbol">?</span>
-				</a>
-				<button type="button" class="header-btn" data-world="real">Media</button>
-			</nav>
-			<p><a id="channel-link">See on Are.na</a></p>
-		</header>
-		<main>
-			<section>
-				<ul id="channel-blocks"></ul>
-			</section>
-		</main>
-		<footer>
-			<h2>Authors</h2>
-			<section id="channel-users"></section>
-		</footer>
+
+		<section id="landing">
+			<div id="landing-top">
+				<span id="landing-human">Human</span>
+				<img src="assets/DancingQueen.gif" alt="Dancing Queen" id="landing-gif">
+				<span id="landing-media">Media</span>
+			</div>
+			<p id="landing-desc">This site explores the tension between the human and the systems that shape them. It examines the human not only as a subject within media environments, but as an object, a piece of content.</p>
+			<div id="landing-scroll">
+				<span>Scroll to move between two realities</span>
+				<span>↓</span>
+			</div>
+		</section>
+
+		<section id="world">
+			<header>
+				<nav class="header-buttons" aria-label="World view">
+					<button type="button" class="header-btn" data-world="dream">Human</button>
+					<a href="#" class="info-icon" id="info-modal" aria-label="Info">
+						<span class="info-icon__symbol">?</span>
+					</a>
+					<button type="button" class="header-btn" data-world="real">Media</button>
+				</nav>
+			</header>
+			<main>
+				<section>
+					<ul id="channel-blocks"></ul>
+				</section>
+			</main>
+			<footer>
+				<h2>Authors</h2>
+				<section id="channel-users"></section>
+				<p><a id="channel-link">See on Are.na</a></p>
+			</footer>
+		</section>
 	</body>
 </html>

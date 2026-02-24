@@ -274,6 +274,32 @@ document.addEventListener('click', (event) => {
 // When a header button is clicked, the code checks if it’s Dream or Real. It then updates the body class to switch the design and highlights the selected button.
 // const creates a variable that cannot be changed to something else later.
 // window.scrollTo(0, 0) means telling the browser to scroll to a specific position on the page. window is basically the browser window. scrollTo is a built-in function that changes where the page is scrolled. The first number is the x position (left to right). The second number is the y position (top to bottom). So (0, 0) means: go to the very top-left corner of the page.
+// Select the main sections of the page
+// #world is the Human/Media world section
+// .header-buttons is the navigation toggle (Human / Media)
+// #landing is the intro section at the top of the page
+let worldSection = document.querySelector('#world')
+let nav = document.querySelector('.header-buttons')
+let landing = document.querySelector('#landing')
+
+
+// Create an IntersectionObserver. This observer watches the landing section. It checks whether the landing section is visible in the viewport
+let navObserver = new IntersectionObserver(([entry]) => {
+	// If the landing section is visible on screen
+	if (entry.isIntersecting) {
+		// Hide the navigation buttons. (because we are still on the intro section)
+		nav.classList.remove('is-visible')
+	} else {
+		// If the landing section is no longer visible. (meaning we scrolled down into the Human/Media world).Show the navigation buttons
+	
+		nav.classList.add('is-visible')
+	}
+})
+
+
+
+navObserver.observe(landing)
+
 document.querySelectorAll('.header-btn').forEach((btn) => {
 	btn.addEventListener('click', () => {
 		const isDream = btn.dataset.world === 'dream'
@@ -281,10 +307,9 @@ document.querySelectorAll('.header-btn').forEach((btn) => {
 		document.querySelectorAll('.header-btn').forEach((b) => b.classList.remove('active'))
 		if (isDream) document.querySelector('.header-btn[data-world="dream"]').classList.add('active')
 		else document.querySelector('.header-btn[data-world="real"]').classList.add('active')
-		window.scrollTo(0, 0)
+		worldSection.scrollIntoView({ behavior: 'smooth' })
 	})
 })
-
 
 document.body.classList.remove('human-world')
 document.querySelector('.header-btn[data-world="real"]')?.classList.add('active')
