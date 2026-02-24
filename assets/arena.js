@@ -39,7 +39,7 @@ let renderBlock = (blockData) => {
 			}
 					</figcaption>
 				</figure>
-				<p><a href="${blockData.source.url}">See the original ↗</a></p>
+				<p><a href="${blockData.source.url}">See the original</a></p>
 			</li>
 			`
 
@@ -94,7 +94,7 @@ let renderBlock = (blockData) => {
 			channelBlocks.insertAdjacentHTML('beforeend', `<li><p><em>Video</em></p><video controls autoplay muted loop playsinline src="${url}"></video></li>`)
 		}
 		else if (contentType.includes('pdf')) {
-			channelBlocks.insertAdjacentHTML('beforeend', `<li><p><em>PDF</em></p><p><a href="${url}" target="_blank" rel="noopener">View PDF ↗</a></p></li>`)
+			channelBlocks.insertAdjacentHTML('beforeend', `<li><p><em>PDF</em></p><p><a href="${url}" target="_blank" rel="noopener">View PDF</a></p></li>`)
 		}
 		// else if (contentType.includes('audio')) {
 		// 	channelBlocks.insertAdjacentHTML('beforeend', `<li><p><em>Audio</em></p><audio controls src="${url}"></audio></li>`)

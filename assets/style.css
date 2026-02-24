@@ -351,12 +351,29 @@ footer h2 {
      margin-bottom: 0.5em;
 }
 
+body:not(.human-world) footer h2 {
+     background: none;
+     color: #fff;
+}
+
 #channel-users address {
      display: inline-block;
      background: #fff;
      padding: 0.35em 0.5em;
      margin: 0.25em;
      font-style: normal;
+}
+
+body:not(.human-world) #channel-users address {
+     background: rgba(255, 255, 255, 0.15);
+     backdrop-filter: blur(7px);
+     -webkit-backdrop-filter: blur(7px);
+     font-size: 1rem;
+     color: #fff;
+}
+
+body:not(.human-world) #channel-users address a {
+     text-decoration: underline;
 }
 
 #channel-users address:first-of-type {
@@ -478,9 +495,10 @@ body:not(.human-world) #channel-blocks li > p a {
      font-size: 0.65rem;
 }
 body:not(.human-world) #channel-blocks li .block-text {
-     max-width: 22ch;
-     padding: 0.5rem;
+     max-width: 32ch;
+     padding: 0.75rem;
 }
+
 
 
 body:not(.human-world) #channel-blocks > li.block--image {
@@ -697,6 +715,23 @@ main iframe,
      border: 0.2rem outset #bfbfbf;
      font-size: 1.25rem;
      cursor: pointer;
+}
+
+body:not(.human-world) .block--audio .audio-ui {
+     background: rgba(255, 0, 0, 0.09);
+     backdrop-filter: blur(7px);
+     -webkit-backdrop-filter: blur(7px);
+}
+
+body:not(.human-world) .block--audio .audio-controls {
+     background: rgba(255, 0, 0, 0.09);
+     border-color: rgba(0, 0, 0, 0.8);
+}
+
+body:not(.human-world) .block--audio .audio-btn {
+     background: rgba(0, 255, 0, 0.2);
+     border-color: rgba(0, 0, 0, 0.8);
+     color: #000;
 }
 
 .block--audio .audio-btn:active {
