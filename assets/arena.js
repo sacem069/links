@@ -229,23 +229,32 @@ fetchJson(`https://api.are.na/v3/channels/${channelSlug}/contents?per=100&sort=p
 
 
 let modalButton = document.querySelector('#info-modal')
-let modalDialog = document.querySelector('#dialog')
-let closeButton = modalDialog.querySelector('button')
+let modalDialog = document.querySelector('#dialog-human')
+let modalDialogMedia = document.querySelector('#dialog-media')
 
 
 //  event.preventDefault() is used so the link doesn’t do its default action (going to # and jumping to the page top) we only want to open the popup.
 modalButton.addEventListener('click', (event) => {
 	event.preventDefault()
-	modalDialog.showModal()
+	if (document.body.classList.contains('human-world')) {
+		modalDialog.showModal()
+	} else {
+		modalDialogMedia.showModal()
+	}
 })
 
-closeButton.addEventListener('click', () => {
+modalDialog.querySelector('button').addEventListener('click', () => {
 	modalDialog.close()
+})
+
+modalDialogMedia.querySelector('button').addEventListener('click', () => {
+	modalDialogMedia.close()
 })
 
 document.addEventListener('click', (event) => {
 	if (event.target === document.documentElement) {
 		modalDialog.close()
+		modalDialogMedia.close()
 	}
 })
 
