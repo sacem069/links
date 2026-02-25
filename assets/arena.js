@@ -348,6 +348,35 @@ document.querySelectorAll('.header-btn').forEach((btn) => {
 
 		//Add the class human-world if isDream is true.
 		document.body.classList.toggle('human-world', isDream)
+		// When switching to Human World, stop all Media audio, videos, and embeds
+		if (isDream) {
+			//This selects every <audio> element and pauses it.
+			document.querySelectorAll('.audio-el').forEach((a) => {
+				a.pause()
+
+				//Finds the play button linked to that audio and changes the icon back to play.  a.closest('.audio-ui') means: starting from the audio element, look up through its parent elements until you find one with the class .audio-ui. This is the container that wraps both the audio element and its controls. Then, from that container, find the play button with .querySelector('.audio-play'). This way, we can target the correct play button for each audio element, even if there are multiple audio players on the page.
+				const playBtn = a.closest('.audio-ui')?.querySelector('.audio-play')
+				if (playBtn) playBtn.textContent = '▶'
+			})
+
+			document.querySelectorAll('#channel-blocks video').forEach((v) => v.pause())
+			
+            //select every iframe inside the channel blocks. For each one, save its current src URL in a new data attribute called data-pause-src. Then set the iframe’s src to 'about:blank', which effectively stops any embedded media from playing.
+			document.querySelectorAll('#channel-blocks iframe').forEach((iframe) => {
+				iframe.dataset.pauseSrc = iframe.src
+				iframe.src = 'about:blank'
+			})
+		} else {
+			// Restore embed iframes when switching back to Media. before we had stopped them, now we go through each iframe and set its src back to the value we saved in data-pause-src. This will make the embeds load again and play if they have autoplay enabled.
+			document.querySelectorAll('#channel-blocks iframe[data-pause-src]').forEach((iframe) => {
+				if (iframe.dataset.pauseSrc) iframe.src = iframe.dataset.pauseSrc
+			})
+			// Resume native videos (they have autoplay muted loop)
+			document.querySelectorAll('#channel-blocks video').forEach((v) => v.play().catch(() => {}))
+		}
+
+
+		//clears the active class from all header buttons, so only one is active at a time. Then it adds the active class to the clicked button based on whether it’s Dream or Real. Finally, it scrolls the world section into view with a smooth animation.
 		document.querySelectorAll('.header-btn').forEach((b) => b.classList.remove('active'))
 		if (isDream) document.querySelector('.header-btn[data-world="dream"]').classList.add('active')
 		else document.querySelector('.header-btn[data-world="real"]').classList.add('active')
