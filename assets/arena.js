@@ -285,20 +285,16 @@ let landing = document.querySelector('#landing')
 
 // Create an IntersectionObserver. This observer watches the landing section. It checks whether the landing section is visible in the viewport
 let navObserver = new IntersectionObserver(([entry]) => {
-	// If the landing section is visible on screen
 	if (entry.isIntersecting) {
-		// Hide the navigation buttons. (because we are still on the intro section)
 		nav.classList.remove('is-visible')
 	} else {
-		// If the landing section is no longer visible. (meaning we scrolled down into the Human/Media world).Show the navigation buttons
-	
 		nav.classList.add('is-visible')
 	}
 })
 
-
-
+// Start observing the landing section. The observer will run whenever the landing enters or leaves the screen
 navObserver.observe(landing)
+
 
 document.querySelectorAll('.header-btn').forEach((btn) => {
 	btn.addEventListener('click', () => {

@@ -74,66 +74,68 @@ body {
      font-size: 0.9375rem;
      display: flex;
      flex-direction: column;
-     
+
 }
 
 
 body:not(.human-world) {
-  background-image: url('glitch.gif');
-  background-size: cover;
-  background-position: center;
-  background-attachment: fixed;
+     background-image: url('glitch.gif');
+     background-size: cover;
+     background-position: center;
+     background-attachment: fixed;
 }
 
 @media (width < 769px) {
-  body:not(.human-world) {
-    background-image: none;
-  }
-  body:not(.human-world)::after {
-    content: '';
-    position: fixed;
-    inset: 0;
-    background-image: url('glitch.gif');
-    background-size: cover;
-    background-position: center;
-    z-index: -1;
-  }
+     body:not(.human-world) {
+          background-image: none;
+     }
+
+     body:not(.human-world)::after {
+          content: '';
+          position: fixed;
+          inset: 0;
+          background-image: url('glitch.gif');
+          background-size: cover;
+          background-position: center;
+          z-index: -1;
+     }
 }
 
 body.human-world {
-  background-image: none;
+     background-image: none;
 }
 
 @media (width < 769px) {
-  body.human-world::after {
-    content: '';
-    position: fixed;
-    inset: 0;
-    background-image: url('texture.jpg');
-    background-size: contain;
-    background-position: top center;
-    /* background-repeat: no-repeat; */
-    z-index: -1;
-  }
+     body.human-world::after {
+          content: '';
+          position: fixed;
+          inset: 0;
+          background-image: url('texture.jpg');
+          background-size: contain;
+          background-position: top center;
+          /* background-repeat: no-repeat; */
+          z-index: -1;
+     }
 }
 
 @media (width > 768px) {
-  body.human-world {
-    background-image: none;
-  }
-  body.human-world::before {
-    content: '';
-    position: fixed;
-    top: 50%;
-    left: 50%;
-    width: 100vh;
-    height: 100vw;
-    transform: translate(-50%, -50%) rotate(90deg);
-    background-image: url('texture.jpg');
-    background-size: cover;
-    background-position: center;
-    z-index: -1;
-  }
+     body.human-world {
+          background-image: none;
+     }
+
+     body.human-world::before {
+          content: '';
+          position: fixed;
+          top: 50%;
+          left: 50%;
+          width: 100vh;
+          height: 100vw;
+          transform: translate(-50%, -50%) rotate(90deg);
+          background-image: url('texture.jpg');
+          background-size: cover;
+          background-position: center;
+          z-index: -1;
+     }
 }
 
 
@@ -267,13 +269,16 @@ body.human-world #channel-link {
      font-size: 1rem;
      margin-top: 1rem;
 }
+
 body.human-world #channel-users address {
      background: none;
      font-family: "adobe-handwriting-tiffany", sans-serif;
 }
+
 body.human-world #channel-users address a {
      text-decoration: underline;
 }
+
 body.human-world footer h2 {
      background: none;
      font-family: "adobe-handwriting-tiffany", sans-serif;
@@ -287,6 +292,7 @@ body.human-world .info-icon__symbol {
      color: #000;
      font-family: "adobe-handwriting-tiffany", sans-serif;
 }
+
 body.human-world dialog,
 body.human-world dialog button {
      font-family: "adobe-handwriting-tiffany", sans-serif;
@@ -321,32 +327,47 @@ header p {
 
 #landing {
      height: 100vh;
+     min-height: 100vh;
      display: flex;
      flex-direction: column;
      align-items: center;
      justify-content: space-between;
      background: #050505;
-      padding: 3rem 1.5rem 2rem;
+     padding: 3rem 1.5rem 2rem;
+     position: relative;
+     z-index: 1;
 }
 
- #landing-top {
-          display: flex;
-          align-items: center;
-          justify-content: center;
-          gap: 1rem;
-          flex: 1;
- }
+#landing::before {
+     content: '';
+     position: absolute;
+     top: 0;
+     left: 0;
+     right: 0;
+     bottom: 0;
+     background: #050505;
+     z-index: -1;
+}
+
+#landing-top {
+     display: flex;
+     align-items: center;
+     justify-content: center;
+     gap: 0.3rem;
+     flex: 1;
+     margin-bottom: -3rem;
+}
 
 #landing-human {
      font-family: "adobe-handwriting-tiffany", sans-serif;
      color: #F6F2E9;
-     font-size: 2.5rem;
+     font-size: 2rem;
 }
 
 #landing-media {
      font-family: 'Electrolize', sans-serif;
      color: #00D4CB;
-     font-size: 2.5rem;
+     font-size: 2rem;
 }
 
 #landing-gif {
@@ -361,9 +382,9 @@ header p {
      text-align: justify;
      line-height: 1.6;
      opacity: 0.75;
-      font-size: 0.65rem;
-          max-width: 36ch;
-          margin-bottom: 1rem;
+     font-size: 0.55rem;
+     max-width: 50ch;
+     margin-bottom: 1rem;
 }
 
 #landing-scroll {
@@ -374,14 +395,15 @@ header p {
      font-family: "Helvetica Monospaced Pro", monospace;
      color: #F6F2E9;
      opacity: 0.6;
-     font-size: 0.65rem;
-          margin-top: 1rem;
+     font-size: 0.50rem;
+     margin-top: 1rem;
 }
 
 @media (width > 768px) {
      #landing {
           padding: 4rem 2rem 2.5rem;
      }
+
      #landing-top {
           display: flex;
           align-items: center;
@@ -389,18 +411,22 @@ header p {
           gap: 1.5rem;
           flex: 1;
      }
+
      #landing-human,
      #landing-media {
           font-size: 6rem;
      }
+
      #landing-gif {
           max-width: 18rem;
      }
+
      #landing-desc {
           font-size: 0.7rem;
           max-width: 51ch;
           margin-bottom: 1.5rem;
      }
+
      #landing-scroll {
           font-size: 0.7rem;
           margin-top: 1.5rem;
@@ -414,10 +440,12 @@ header p {
      padding-top: calc(var(--nav-height) + var(--space-page));
      padding-bottom: 4rem;
 }
+
 body.human-world .header-buttons {
      background: var(--window-body);
      border-bottom: 0.1875rem outset var(--window-border);
 }
+
 body:not(.human-world) .header-buttons {
      color: #fff;
      background: rgba(255, 255, 255, 0.15);
@@ -432,6 +460,7 @@ body:not(.human-world) .header-buttons {
      display: inline-block;
      cursor: pointer;
 }
+
 .header-btn[data-world="dream"] {
      font-family: "adobe-handwriting-tiffany", sans-serif;
 }
@@ -440,12 +469,15 @@ body:not(.human-world) .header-buttons {
      font-weight: bold;
      border: none;
 }
+
 .header-btn[data-world="dream"].active {
      color: #C24A32;
 }
+
 .header-btn[data-world="real"].active {
      color: #00D4CB;
 }
+
 .header-btn:hover {
      background: #f0f0f0;
 }
@@ -539,16 +571,16 @@ main section {
      margin-bottom: 10rem;
 }
 
- body.human-world #channel-blocks {
+body.human-world #channel-blocks {
      grid-auto-rows: minmax(20rem, auto);
-     
 
-          
-     }
+
+
+}
 
 #channel-blocks>li {
      transition: transform 400ms ease;
-     z-index: var(--z, 1); 
+     z-index: var(--z, 1);
      width: 100%;
      max-width: 15rem;
      justify-self: center;
@@ -559,25 +591,26 @@ main section {
      background: var(--window-body);
      border: 0.1875rem outset var(--window-border);
 
-     
+
 }
 
 
 /* When a block becomes active or stays selected, it rotates 4 degrees more than its original rotation */
-#channel-blocks > li.active-block{
-      transform: rotate(calc(var(--r, 0deg) + 40deg));
+#channel-blocks>li.active-block {
+     transform: rotate(calc(var(--r, 0deg) + 40deg));
 
 }
 
-#channel-blocks > li.stays{
-  transform: rotate(calc(var(--r, 0deg) + 4deg));
+#channel-blocks>li.stays {
+     transform: rotate(calc(var(--r, 0deg) + 4deg));
 }
 
 
 body:not(.human-world) #channel-blocks {
      grid-template-columns: 1fr 1fr;
 }
-body:not(.human-world) #channel-blocks > li {
+
+body:not(.human-world) #channel-blocks>li {
      z-index: 1;
      background: transparent;
      border: none;
@@ -586,25 +619,30 @@ body:not(.human-world) #channel-blocks > li {
      font-size: 0.65rem;
      transition: transform 200ms ease;
 }
-body:not(.human-world) #channel-blocks > li:hover {
+
+body:not(.human-world) #channel-blocks>li:hover {
      transform: rotate(var(--r, 0deg)) scale(1.08);
 }
-body:not(.human-world) #channel-blocks li > p:first-of-type {
+
+body:not(.human-world) #channel-blocks li>p:first-of-type {
      display: none;
 }
+
 body:not(.human-world) #channel-blocks li figure,
 body:not(.human-world) #channel-blocks li .block-text,
 body:not(.human-world) #channel-blocks li .block-embed,
-body:not(.human-world) #channel-blocks li > p:not(:first-of-type),
-body:not(.human-world) #channel-blocks li > video,
-body:not(.human-world) #channel-blocks li > audio {
+body:not(.human-world) #channel-blocks li>p:not(:first-of-type),
+body:not(.human-world) #channel-blocks li>video,
+body:not(.human-world) #channel-blocks li>audio {
      background: transparent;
      opacity: 0.65;
 }
+
 body:not(.human-world) #channel-blocks li .block-text,
-body:not(.human-world) #channel-blocks li > p a {
+body:not(.human-world) #channel-blocks li>p a {
      font-size: 0.65rem;
 }
+
 body:not(.human-world) #channel-blocks li .block-text {
      max-width: 32ch;
      padding: 0.75rem;
@@ -613,30 +651,53 @@ body:not(.human-world) #channel-blocks li .block-text {
 
 
 
-body:not(.human-world) #channel-blocks > li.block--image {
+body:not(.human-world) #channel-blocks>li.block--image {
      display: none;
 }
 
 /* When its dream world show only images */
-body.human-world #channel-blocks > li:not(.block--image) {
+body.human-world #channel-blocks>li:not(.block--image) {
      display: none;
 }
 
 
 /* I created a rotation system where every 7 blocks receive a specific rotation value. The pattern repeats every 7 elements, creating a structured but organic collage effect. Each block gets a rotation stored in a CSS variable, which is later used in the transform. */
-#channel-blocks>li:nth-child(7n+1) { --r: -150deg;}
-#channel-blocks>li:nth-child(7n+2) { --r: 3deg;}
-#channel-blocks>li:nth-child(7n+3) { --r: -4deg;}
-#channel-blocks>li:nth-child(7n+4) { --r: 2deg;}
-#channel-blocks>li:nth-child(7n+5) {--r: -3deg;}
-#channel-blocks>li:nth-child(7n+6) {--r: 4deg;}
-#channel-blocks>li:nth-child(7n+7) {--r: -8deg;}
-#channel-blocks>li:nth-child(7n) {--r: 5deg;}
+#channel-blocks>li:nth-child(7n+1) {
+     --r: -150deg;
+}
+
+#channel-blocks>li:nth-child(7n+2) {
+     --r: 3deg;
+}
+
+#channel-blocks>li:nth-child(7n+3) {
+     --r: -4deg;
+}
+
+#channel-blocks>li:nth-child(7n+4) {
+     --r: 2deg;
+}
+
+#channel-blocks>li:nth-child(7n+5) {
+     --r: -3deg;
+}
+
+#channel-blocks>li:nth-child(7n+6) {
+     --r: 4deg;
+}
+
+#channel-blocks>li:nth-child(7n+7) {
+     --r: -8deg;
+}
+
+#channel-blocks>li:nth-child(7n) {
+     --r: 5deg;
+}
 
 /* Dream World: no rotation, blocks centered; label at bottom; Tiffany font — only for image blocks */
-body.human-world #channel-blocks > li.block--image,
-body.human-world #channel-blocks > li.block--image.active-block,
-body.human-world #channel-blocks > li.block--image.stays {
+body.human-world #channel-blocks>li.block--image,
+body.human-world #channel-blocks>li.block--image.active-block,
+body.human-world #channel-blocks>li.block--image.stays {
      --r: 0deg;
      transform: rotate(0deg);
      display: flex;
@@ -655,19 +716,23 @@ body.human-world #channel-blocks > li.block--image.stays {
           margin-left: auto;
           margin-right: auto;
      }
-     body.human-world #channel-blocks > li.block--image {
+
+     body.human-world #channel-blocks>li.block--image {
           font-size: 1.5rem;
      }
-     body.human-world #channel-blocks li > p:first-of-type {
+
+     body.human-world #channel-blocks li>p:first-of-type {
           font-size: 1.4rem;
           padding: 1rem 1.25rem;
      }
-     body.human-world #channel-blocks > li:nth-child(odd) {
+
+     body.human-world #channel-blocks>li:nth-child(odd) {
           grid-column: 1;
           justify-self: center;
           margin-top: 1.5rem;
      }
-     body.human-world #channel-blocks > li:nth-child(even) {
+
+     body.human-world #channel-blocks>li:nth-child(even) {
           grid-column: 2;
           justify-self: center;
           margin-top: 1.5rem;
@@ -704,13 +769,14 @@ body.human-world #channel-blocks > li.block--image.stays {
           grid-template-columns: 1fr 1fr 1fr 1fr;
      }
 
-/* grid column set to auto makes the blocks being able to cover for the spaces that the images were leaving when hidden in the real world */
-     body:not(.human-world) #channel-blocks > li:nth-child(odd),
-     body:not(.human-world) #channel-blocks > li:nth-child(even) {
+     /* grid column set to auto makes the blocks being able to cover for the spaces that the images were leaving when hidden in the real world */
+     body:not(.human-world) #channel-blocks>li:nth-child(odd),
+     body:not(.human-world) #channel-blocks>li:nth-child(even) {
           grid-column: auto;
           justify-self: center;
      }
-     body:not(.human-world) #channel-blocks > li {
+
+     body:not(.human-world) #channel-blocks>li {
           max-width: 38rem;
      }
 }
@@ -728,7 +794,8 @@ body.human-world #channel-blocks > li.block--image.stays {
      font-size: 0.75rem;
      border-bottom: 0.0625rem solid var(--window-border);
 }
-body.human-world #channel-blocks li > p:first-of-type {
+
+body.human-world #channel-blocks li>p:first-of-type {
      padding: 0.75rem 1rem;
      font-size: 1.15rem;
      background: #ffffff;
@@ -856,9 +923,9 @@ body:not(.human-world) .block--audio .audio-btn {
 }
 
 
-body.human-world #channel-blocks > li.block--image,
-body.human-world #channel-blocks > li.block--image.active-block,
-body.human-world #channel-blocks > li.block--image.stays {
+body.human-world #channel-blocks>li.block--image,
+body.human-world #channel-blocks>li.block--image.active-block,
+body.human-world #channel-blocks>li.block--image.stays {
      --r: 0deg;
      transform: rotate(0deg);
      display: flex;
@@ -911,7 +978,7 @@ body.human-world #channel-blocks > li.block--image.stays {
      background-color: rgba(30, 30, 30, 0.94);
 }
 
-body.human-world #channel-blocks > li.block--image {
+body.human-world #channel-blocks>li.block--image {
      cursor: pointer;
 }
 
@@ -919,13 +986,15 @@ body.human-world #channel-blocks > li.block--image {
      body.human-world #channel-blocks {
           grid-template-columns: 1fr 1fr;
      }
-     body.human-world #channel-blocks > li:nth-child(odd){
+
+     body.human-world #channel-blocks>li:nth-child(odd) {
           grid-column: 1;
           justify-self: center;
           margin-top: 1.5rem;
      }
-     body.human-world #channel-blocks > li:nth-child(even) {
- grid-column: 2;
+
+     body.human-world #channel-blocks>li:nth-child(even) {
+          grid-column: 2;
           justify-self: center;
           margin-top: 1.5rem;
      }
