@@ -48,6 +48,12 @@ let renderBlock = (blockData) => {
 
 
 	// ——— IMAGE ———
+	// If the block is an image, get its image data
+	// Use optional chaining to safely access different image sizes
+	// Try display first, then fallback options
+	// If no image source exists, stop to prevent broken content
+	// Create the HTML structure for the image block, including a caption if the title exists
+	// Insert the image block into the page
 	else if (blockData.type == 'Image') {
 		let img = blockData.image
 		let src = img?.display?.url || img?.original?.url || img?.large?.src_2x || ''
@@ -59,9 +65,7 @@ let renderBlock = (blockData) => {
 
 
 	// TEXT
-	// If textHtml is empty or doesn't exist, try getting the text
-	// from another place in the block (description.html).
-	// The ?. makes sure the code doesn’t crash if description doesn’t exist.
+	// If the block is text, get its content. If it comes as an object, extract the HTML. If there is no main content, use the description as a fallback. Build the HTML structure dynamically and insert it into the page.
 	else if (blockData.type == 'Text') {
 		let textHtml = blockData.content
 		if (typeof textHtml === 'object') {
@@ -85,6 +89,8 @@ let renderBlock = (blockData) => {
 	}
 
 	// ——— ATTACHMENT (uploaded file: video, pdf, audio) ———
+	// If the block is an attachment, get its file type and URL. Use optional chaining to avoid errors if the attachment or its properties are missing. If there is no URL, stop to prevent broken content. Depending on the file type, create the appropriate HTML structure (video player, PDF link, audio player) and insert it into the page.
+
 	else if (blockData.type == 'Attachment') {
 		let contentType = blockData.attachment?.content_type || ''
 		let url = blockData.attachment?.url || ''
@@ -96,9 +102,9 @@ let renderBlock = (blockData) => {
 		else if (contentType.includes('pdf')) {
 			channelBlocks.insertAdjacentHTML('beforeend', `<li><p><em>PDF</em></p><p><a href="${url}" target="_blank" rel="noopener">View PDF</a></p></li>`)
 		}
-		// else if (contentType.includes('audio')) {
-		// 	channelBlocks.insertAdjacentHTML('beforeend', `<li><p><em>Audio</em></p><audio controls src="${url}"></audio></li>`)
-		// }
+
+
+		// If the attachment is an audio file, create a custom audio player. Build the HTML structure with custom contols (previous, play, next). Created buttons which will trigger Javascript actions. aria-lavel improves accessibilitu for screen readers.  Use the attachment URL as the audio source. Finally inserted the new audio block into the page. 
 
 		else if (contentType.includes('audio')) {
 			let audioItem = `
@@ -122,18 +128,21 @@ let renderBlock = (blockData) => {
 		}
 	}
 
-	// ——— EMBED (YouTube, Spotify, etc.) ———
+
+// ——— EMBED (YouTube, Spotify, etc.) ———
+// If the block is an embed (YouTube, Spotify, etc.), get its HTML and type from the API. Only render it if it contains valid HTML and is a video or rich media (rich media is interactive or dynamic content). Then, insert the imbed inside a styled container block. 
+
 	else if (blockData.type == 'Embed') {
-		let html = blockData.embed?.html || ''
-		let embedType = blockData.embed?.type || ''
-		if (html && (embedType.includes('video') || embedType.includes('rich'))) {
-			channelBlocks.insertAdjacentHTML('beforeend', `<li><p><em>Embed</em></p><div class="block-embed">${html}</div></li>`)
-		}
+	let html = blockData.embed?.html || ''
+	let embedType = blockData.embed?.type || ''
+	if (html && (embedType.includes('video') || embedType.includes('rich'))) {
+		channelBlocks.insertAdjacentHTML('beforeend', `<li><p><em>Embed</em></p><div class="block-embed">${html}</div></li>`)
 	}
+}
 }
 
 
-// A function to display the owner/collaborator info:
+// A function to display the owner/collaborator info. Select the container where user profiles will appear. Build the HTML using the user's name and slug. Insert the profile into the page. 
 let renderUser = (userData) => {
 	let channelUsers = document.querySelector('#channel-users') // Container.
 
@@ -152,6 +161,10 @@ let renderUser = (userData) => {
 
 
 // Finally, a helper function to fetch data from the API, then run a callback function with it:
+//What cahe: no store is doing is telling the browser not store this response. Always request fresh data from the server. 
+// Converts the response into Json
+// Passes the JSON data to a callback function for further processing
+
 let fetchJson = (url, callback) => {
 	fetch(url, { cache: 'no-store' })
 		.then((response) => response.json())
@@ -163,22 +176,27 @@ let fetchJson = (url, callback) => {
 
 
 
-// Now that we have said all the things we *can* do, go get the channel data:
+// Fetch channel data from the Are.na API. Then it logs the response to inspect its structure. Then passes the full channel data to the `placeChannelInfo` function to update the channel info on the page. It also passes the nested owner object to the `renderUser` function to display the user profile.
+
 fetchJson(`https://api.are.na/v3/channels/${channelSlug}`, (json) => {
-	console.log(json) // Always good to check your response!
+	console.log(json) 
 
 	placeChannelInfo(json) // Pass all the data to the first function, above.
 	renderUser(json.owner) // Pass just the nested object `.owner`.
 })
 
-// Get your info to put with the owner's:
+
+// Fetch data for a specific Are.na user. Log the response to inspect the returned object. Then pass the user daa directly to render User (no nesting needed) since the API returns the user data directly at the top level, not nested inside another object.
+
 fetchJson(`https://api.are.na/v3/users/${myUsername}/`, (json) => {
 	console.log(json) // See what we get back.
 
 	renderUser(json) // Pass this to the same function, no nesting.
 })
 
-// And the data for the blocks:
+
+// Fetch all blocks from the channel (up to 100),it is sorted by position. Then logs the response to inspect the structure. Then it loops through the returned data array, and for each block, it passes its data to the renderBlock function. The renderBlock function decides how to display each block type based on its properties.
+
 fetchJson(`https://api.are.na/v3/channels/${channelSlug}/contents?per=100&sort=position_desc`, (json) => {
 	console.log(json) // See what we get back.
 
@@ -190,19 +208,28 @@ fetchJson(`https://api.are.na/v3/channels/${channelSlug}/contents?per=100&sort=p
 	})
 
 
-	// // Loop through all blocks and give earlier ones a higher z-index
-	// So the first blocks appear on top of the others.
 
+	// selects all <li> elements inside #channel-blocks. Go throuh each block one by one. Index is its postition in the list (0, 1, 2, 3...).
+	// calculate base z-index. First block gets the highest z (blocks.lenght - 0), and last block gets the lowest. 
+	
 	let blocks = document.querySelectorAll('#channel-blocks > li')
 
 	blocks.forEach((block, index) => {
 		let baseZ = blocks.length - index
+
+		// This stores the value inside a data attribute on the element.So later, you can restore it.
 		block.dataset.baseZ = baseZ
+		//This sets a custom CSS variable (--z) on each block.
 		block.style.setProperty('--z', baseZ)
 
 	})
 
-	// scroll highlight: add class when block is in view, remove when it leaves (so it moves every time you pass through)
+
+
+	// defining variables. activeClass → the class added when visible. topZ → highest stacking value
+	// IntersectionObserver detects when an element enters or leaves the viewport. When a block enters the view, it adds the active class and brings it to the front by setting its z-index higher than all others. When it leaves the view, it removes the active class and resets its z-index to the base value stored earlier. The rootMargin is set to trigger when the block is roughly in the middle of the viewport (35% from top and bottom).
+
+
 	let activeClass = 'active-block'
 	let topZ = blocks.length
 
@@ -218,7 +245,7 @@ fetchJson(`https://api.are.na/v3/channels/${channelSlug}/contents?per=100&sort=p
 			}
 		}, {
 			root: null,
-			rootMargin: '-35% 0% -35% 0%',
+			rootMargin: '-45% 0% -45% 0%',
 		})
 
 		blockObserver.observe(block)
@@ -226,12 +253,12 @@ fetchJson(`https://api.are.na/v3/channels/${channelSlug}/contents?per=100&sort=p
 })
 
 
+// Defining The button that opens the modal, human world dialog and media world dialog. When the button is clicked, it checks if the body has the class 'human-world'. If it does, it opens the human world dialog. Otherwise, it opens the media world dialog.
 
 
 let modalButton = document.querySelector('#info-modal')
 let modalDialog = document.querySelector('#dialog-human')
 let modalDialogMedia = document.querySelector('#dialog-media')
-
 
 //  event.preventDefault() is used so the link doesn’t do its default action (going to # and jumping to the page top) we only want to open the popup.
 modalButton.addEventListener('click', (event) => {
@@ -243,6 +270,9 @@ modalButton.addEventListener('click', (event) => {
 	}
 })
 
+
+//This finds the close button inside the dialog and When clicked → close the modal.
+
 modalDialog.querySelector('button').addEventListener('click', () => {
 	modalDialog.close()
 })
@@ -251,6 +281,7 @@ modalDialogMedia.querySelector('button').addEventListener('click', () => {
 	modalDialogMedia.close()
 })
 
+//If the user clicks directly on the root HTML element (outside the modal), close both dialogs.
 document.addEventListener('click', (event) => {
 	if (event.target === document.documentElement) {
 		modalDialog.close()
@@ -261,6 +292,8 @@ document.addEventListener('click', (event) => {
 
 
 //make audio play and stop
+//It Listens for clicks anywhere on the page and check if the click was on an audio play button. If it was, find the corresponding audio element and toggle play/pause. Update the button icon accordingly.
+
 
 document.addEventListener('click', (event) => {
 	const playBtn = event.target.closest('.audio-play')
@@ -279,10 +312,12 @@ document.addEventListener('click', (event) => {
 })
 
 
-// Real World / Dream World toggle
+// making Real World / Dream World toggle show after the we leave the landing page. It uses an IntersectionObserver to watch the landing section. When the landing is in view, it hides the navigation buttons. When we scroll past it, it shows the buttons. This way, the toggle only appears after we scroll down from the intro section.
 // When a header button is clicked, the code checks if it’s Dream or Real. It then updates the body class to switch the design and highlights the selected button.
 // const creates a variable that cannot be changed to something else later.
 // window.scrollTo(0, 0) means telling the browser to scroll to a specific position on the page. window is basically the browser window. scrollTo is a built-in function that changes where the page is scrolled. The first number is the x position (left to right). The second number is the y position (top to bottom). So (0, 0) means: go to the very top-left corner of the page.
+
+
 // Select the main sections of the page
 // #world is the Human/Media world section
 // .header-buttons is the navigation toggle (Human / Media)
@@ -294,6 +329,8 @@ let landing = document.querySelector('#landing')
 
 // Create an IntersectionObserver. This observer watches the landing section. It checks whether the landing section is visible in the viewport
 let navObserver = new IntersectionObserver(([entry]) => {
+
+	//if landing section is visible on screen hide the navigation, if its not visible show it. 
 	if (entry.isIntersecting) {
 		nav.classList.remove('is-visible')
 	} else {
@@ -308,6 +345,8 @@ navObserver.observe(landing)
 document.querySelectorAll('.header-btn').forEach((btn) => {
 	btn.addEventListener('click', () => {
 		const isDream = btn.dataset.world === 'dream'
+
+		//Add the class human-world if isDream is true.
 		document.body.classList.toggle('human-world', isDream)
 		document.querySelectorAll('.header-btn').forEach((b) => b.classList.remove('active'))
 		if (isDream) document.querySelector('.header-btn[data-world="dream"]').classList.add('active')
@@ -316,6 +355,8 @@ document.querySelectorAll('.header-btn').forEach((btn) => {
 	})
 })
 
+
+//The site starts in Media (Real) World by default.
 document.body.classList.remove('human-world')
 document.querySelector('.header-btn[data-world="real"]')?.classList.add('active')
 
@@ -326,21 +367,29 @@ let blockDialogImg = document.querySelector('#block-dialog-img')
 let blockDialogClose = document.querySelector('#block-dialog-close')
 
 document.querySelector('#channel-blocks').addEventListener('click', (event) => {
+	//If we are not in Human World, stop. We only want this image popup to work in Human World.
 	if (!document.body.classList.contains('human-world')) return
 	let block = event.target.closest('.block--image')
 	if (!block) return
 	let img = block.querySelector('img')
 	if (!img) return
+	//Copy the image into the modal
 	blockDialogImg.src = img.src
 	blockDialogImg.alt = img.alt
+	//This opens the <dialog> element with backdrop
 	blockDialog.showModal()
 })
+
+
+//When clicking close the modal and clear the image source. 
 
 blockDialogClose.addEventListener('click', () => {
 	blockDialog.close()
 	blockDialogImg.src = ''
 })
 
+
+//If the user clicks outside (on the root element), close the modal. 
 document.addEventListener('click', (event) => {
 	if (event.target == document.documentElement) {
 		blockDialog.close()
